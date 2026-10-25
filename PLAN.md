@@ -43,7 +43,9 @@ cheap if done carefully, so A owns them full-time.
 | **D: video lead** | Owns `video/script.md`, the storyboard and the recording plan. Researches cloud computing and security basics. | Q1, Q2, Q8, and the edit: intro, transitions, timing to 5:00, MP4 export, upload. |
 
 **Step-by-step guides per role:** `guides/A-vm-environment.md`, `guides/B-model-script.md`,
-`guides/C-data-evaluation.md`, `guides/D-video.md`. Ada is A.
+`guides/C-data-evaluation.md`, `guides/D-video.md`.
+
+**Who:** A = Ada, B = Bobby, C = TBC, D = TBC.
 
 **Pairs for cover:** A↔B (VM and script) and C↔D (analysis and video).
 
