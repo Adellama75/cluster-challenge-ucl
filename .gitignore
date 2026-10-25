@@ -1,0 +1,15 @@
+# Data stays out of this public repo (fetched with curl, see README)
+data/
+*.csv
+!outputs/*.csv
+# Python
+.venv/
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
+# Never commit access details
+*.pem
+*.key
+id_*
+.env
+credentials*
