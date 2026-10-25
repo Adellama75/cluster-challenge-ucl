@@ -14,7 +14,17 @@ cloud platform.
 
 What is cloud compute? What are the key data security considerations for cloud computing?
 
-[TODO(D): draft from guides/D-video.md step 2]
+Cloud computing means renting computers over the internet instead of owning them. Our "machine" on
+Condenser is a virtual machine: a slice of a bigger physical server that UCL runs, which we got in
+minutes and never had to touch.
+[screen: lscpu on the VM, highlighting the "Hypervisor vendor" line — TODO(A): capture Monday]
+Sharing a server is also the security problem. Other people's machines run on the same hardware, so
+access has to be locked down: our own login, no passwords or keys in our public code repository, and
+data files only we can read. Even the processor needs protecting: lscpu lists the patches for
+Spectre-style bugs, which could let one virtual machine spy on another through the shared CPU.
+[TODO(D): data in transit and at rest (SSH, encryption), and where the data physically lives]
+<!-- src: README.md section 2; lscpu "Vulnerabilities" section -->
+<!-- draft by A from the 25 Oct session; D owns this segment -->
 
 ## Q3: file permissions (0:30, ~70 words)
 
@@ -26,6 +36,7 @@ On a shared cloud machine that means anyone with an account could read patient-s
 restricted it to our own account with `chmod 600`, and our script creates its outputs without access
 for other users.
 [screen: ls -l before and after]
+[TODO(A): after checking on the VM, add one clause if true: no extra access via ACLs (`getfacl`, a `+` after the mode bits)]
 <!-- src: notes/2026-10-25-ada-setup.md -->
 
 ## Q4, Q5: data (0:55, ~130 words)
