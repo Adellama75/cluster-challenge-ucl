@@ -1,42 +1,78 @@
 # CIUK 2026 UCL challenge: antimicrobial resistance tree models
 
-Team **UCLuster Too**. Decision-tree models for co-amoxiclav resistance in E. coli, run on UCL's Condenser
-cloud platform. Team plan: [PLAN.md](PLAN.md). Step-by-step guides per role: [guides/](guides/).
+Team **UCLuster Too** (Ada Ge, Bobby Ta, Eric Huang, James Loke). A Python script that trains
+decision-tree models to identify patients whose E. coli infections resist co-amoxiclav, from age and
+deprivation (IMD), and runs on UCL's Condenser cloud platform.
 
-> This README is the submitted ReadMe and will be completed during the week (owner: A).
+## Quick start on Condenser
+
+Already set up on our VM. To rerun it:
+
+```bash
+cd ~/cluster-challenge-ucl            # [Mon: confirm path]
+source .venv/bin/activate
+python src/amr_trees.py               # about 20 seconds; results in outputs/
+cat outputs/run_summary_age_imd.txt   # best tree, best model, main risk factors
+```
+
+From scratch on a new machine (Python 3 and internet access needed; no root):
+
+```bash
+git clone https://github.com/adellama75/cluster-challenge-ucl.git && cd cluster-challenge-ucl
+python3 -m venv .venv && source .venv/bin/activate && pip install -r requirements.txt
+mkdir -p data && curl -L -o data/dig_health_hub_amr.csv \
+  "https://drive.google.com/uc?export=download&id=1KeMv2GaR824SNW2_KDDfCrcSpIObjui0"
+chmod 600 data/dig_health_hub_amr.csv
+python src/amr_trees.py
+```
 
 ## Layout
 
 | Path | What |
 |---|---|
-| `src/` | The Python script |
+| `src/amr_trees.py` | The analysis script |
+| `requirements.txt` | The Python packages it needs, pinned to the versions on our VM |
+| `data/` | The data file `dig_health_hub_amr.csv` (on the VM only; not in the public repo) |
 | `outputs/` | Tree diagrams, decision-surface plots and the model comparison table, written by the script |
-| `data/` | The data file (not committed; fetched with curl) |
-| `video/` | Video script and teamwork log |
-| `notes/` | Session notes |
-
-## Video script workflow (team only)
-
-After each work session, run `/script` in Claude Code started **inside this repo**, optionally with notes:
-`/script got the venv working; the first numpy wheel failed so we pinned an older one`. It drafts
-narration for the matching video question in `video/script.md` (numbers only from repo files or your
-notes, `[TODO]` otherwise), keeps each segment within its time budget, adds a teamwork entry to
-`video/teamwork-log.md`, and commits locally. Then push. Mark finished lines `<!-- locked -->` to keep them.
-Not using Claude Code? Paste `.claude/skills/script/SKILL.md` into your assistant along with your notes.
+| `notes/` | Working notes, including the data file's permissions before and after we changed them |
+| `video/` | Our video script and teamwork log |
+| `PLAN.md`, `guides/` | Team plan and role guides |
 
 ## 1 How the environment was created
 
-TODO(A): exact commands run on the VM, Python version, `requirements.txt`.
+On the Condenser VM (AlmaLinux, no root access), as our own user:
 
 ```bash
-python3 -m venv .venv
+python3 --version                     # [Mon: version]
+python3 -m venv .venv                 # isolated environment inside the project folder
 source .venv/bin/activate
-pip install -r requirements.txt
+pip install --upgrade pip
+pip install pandas scikit-learn matplotlib
+pip freeze | grep -iE '^(pandas|scikit-learn|matplotlib)==' > requirements.txt
+```
+
+Only the three packages the script imports are installed (numpy and the other dependencies come with
+them), and `requirements.txt` pins the exact versions, so `pip install -r requirements.txt` rebuilds
+the same environment. Graphviz is not installed (it needs root), so the script draws trees with
+matplotlib instead.
+
+We also installed the `micro` text editor into `~/bin` (the VM only has vim):
+
+```bash
+mkdir -p ~/bin && cd ~/bin && curl https://getmic.ro | bash && cd ~
+echo 'export PATH="$HOME/bin:$PATH"' >> ~/.bashrc
 ```
 
 ## 2 Accessing the environment
 
-TODO(A): how a marker reaches the VM and where the files are. No credentials in this file.
+1. Log in to Condenser with the account details from the Condenser welcome email.
+   [Mon: web interface or SSH, and the exact steps]
+2. Connect to our team server, using the details from the ARC Education email.
+   [Mon: how]
+3. The project is in `~/cluster-challenge-ucl` [Mon: confirm]. Run `source .venv/bin/activate` before
+   using Python.
+
+No passwords, keys or addresses are stored in this repository.
 
 ## 3 Getting the data
 
@@ -44,8 +80,12 @@ TODO(A): how a marker reaches the VM and where the files are. No credentials in 
 mkdir -p data
 curl -L -o data/dig_health_hub_amr.csv \
   "https://drive.google.com/uc?export=download&id=1KeMv2GaR824SNW2_KDDfCrcSpIObjui0"
-chmod 600 data/dig_health_hub_amr.csv   # TODO(A): final permission choice and why
+chmod 600 data/dig_health_hub_amr.csv
 ```
+
+The file is downloaded readable by every user on the machine. It holds patient-style health records
+(synthetic, but treated as real), so `chmod 600` makes it readable and writable by our account only.
+Before and after: `notes/permissions-before.txt`, `notes/permissions-after.txt`.
 
 ## 4 Running the script
 
@@ -69,4 +109,5 @@ to `outputs/`:
 | `feature_importance_age_imd.png` | Main risk factors |
 
 Options: `--features age imd sex_male had_surgery_past_yr` adds columns, `--max-depth`, `--test-size`,
-`--seed` (default 42, for reproducible results). Output files are created without world read access.
+`--seed` (default 42, for reproducible results). Output files are created without read access for other
+users.

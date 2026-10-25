@@ -63,9 +63,8 @@ Run `/script` after each session, with a line of notes.
 
 ## Tuesday to Thursday: README and checks
 
-10. **Fill in `README.md`** sections 1 to 4 with the commands you actually ran. Every command must be
-    copy-pasteable. Move the "Video script workflow" section to `video/README.md` before submission
-    (it's for us, not the markers).
+10. **Fill in the `[Mon: …]` gaps in `README.md`** (login steps, Python version, project path) and
+    check every command matches what you actually ran. Every command must be copy-pasteable.
 11. **After B's final script (Wednesday 18:00), rerun on the VM** so `outputs/` matches the final code.
 12. **Thursday, fresh-clone test:** in a new folder on the VM, follow the README word for word (clone,
     venv, data, run). If you have to do anything not written down, add it to the README.
