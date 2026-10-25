@@ -1,0 +1,5 @@
+# Only what src/amr_trees.py imports (numpy comes with these).
+# TODO(A): pin to the exact versions installed on the Condenser VM: pip freeze | grep -iE '^(pandas|scikit-learn|matplotlib)=='
+pandas
+scikit-learn
+matplotlib

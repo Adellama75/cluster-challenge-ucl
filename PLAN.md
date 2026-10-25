@@ -42,6 +42,9 @@ cheap if done carefully, so A owns them full-time.
 | **C: data and evaluation lead** | Explores the data locally (class balance, age and imd distributions, missing values). Chooses metrics that suit an imbalanced outcome (recall on the resistant class, ROC AUC, not only accuracy). Prototypes alternatives (logistic regression, random forest, gradient boosting) to compare against the trees. | Q4, Q5, Q7 (representative and synthetic data, bias, other techniques). |
 | **D: video lead** | Owns `video/script.md`, the storyboard and the recording plan. Researches cloud computing and security basics. | Q1, Q2, Q8, and the edit: intro, transitions, timing to 5:00, MP4 export, upload. |
 
+**Step-by-step guides per role:** `guides/A-vm-environment.md`, `guides/B-model-script.md`,
+`guides/C-data-evaluation.md`, `guides/D-video.md`. Ada is A.
+
 **Pairs for cover:** A↔B (VM and script) and C↔D (analysis and video).
 
 **After every work session:** run `/script` in Claude Code (see `.claude/skills/script/`). It turns
