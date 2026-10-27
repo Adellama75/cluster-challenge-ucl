@@ -15,16 +15,21 @@ python src/amr_trees.py               # about 20 seconds; results in outputs/
 cat outputs/run_summary_age_imd.txt   # best tree, best model, main risk factors
 ```
 
-From scratch on a new machine (Python 3 and internet access needed; no root):
+From scratch on a new machine (Python 3 and internet access needed; no root). Condenser has no git,
+so the code comes down as a tarball:
 
 ```bash
-git clone https://github.com/adellama75/cluster-challenge-ucl.git && cd cluster-challenge-ucl
+curl -L -o repo.tar.gz https://github.com/adellama75/cluster-challenge-ucl/archive/refs/heads/main.tar.gz
+tar xzf repo.tar.gz && mv cluster-challenge-ucl-main cluster-challenge-ucl && cd cluster-challenge-ucl
 python3 -m venv .venv && source .venv/bin/activate && pip install -r requirements.txt
 mkdir -p data && curl -L -o data/dig_health_hub_amr.csv \
   "https://drive.google.com/uc?export=download&id=1KeMv2GaR824SNW2_KDDfCrcSpIObjui0"
 chmod 600 data/dig_health_hub_amr.csv
 python src/amr_trees.py
 ```
+
+(Where git is available, `git clone https://github.com/adellama75/cluster-challenge-ucl.git` replaces
+the first two lines.)
 
 ## Layout
 
@@ -43,7 +48,7 @@ python src/amr_trees.py
 On the Condenser VM (AlmaLinux, no root access), as our own user:
 
 ```bash
-python3 --version                     # [Mon: version]
+python3 --version                     # Python 3.12.13 on our VM
 python3 -m venv .venv                 # isolated environment inside the project folder
 source .venv/bin/activate
 pip install --upgrade pip
@@ -55,6 +60,10 @@ Only the three packages the script imports are installed (numpy and the other de
 them), and `requirements.txt` pins the exact versions, so `pip install -r requirements.txt` rebuilds
 the same environment. Graphviz is not installed (it needs root), so the script draws trees with
 matplotlib instead.
+
+The VM has no git, so code updates are fetched file by file with `curl` from the GitHub raw URL
+(for example `curl -sL -o src/amr_trees.py https://raw.githubusercontent.com/adellama75/cluster-challenge-ucl/main/src/amr_trees.py`).
+The copy on GitHub is the source of truth; the VM copy is never edited directly.
 
 We also installed the `micro` text editor into `~/bin` (the VM only has vim):
 
