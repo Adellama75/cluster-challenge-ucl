@@ -1,5 +1,5 @@
 # Only what src/amr_trees.py imports (numpy comes with these).
-# TODO(A): pin to the exact versions installed on the Condenser VM: pip freeze | grep -iE '^(pandas|scikit-learn|matplotlib)=='
-pandas
-scikit-learn
-matplotlib
+# Pinned to what pip installed on the Condenser VM (Python 3.12.13), 27 Oct 2026.
+pandas==3.1.0
+scikit-learn==1.9.1
+matplotlib==3.11.2
