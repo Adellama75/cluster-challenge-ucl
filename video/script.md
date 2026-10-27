@@ -19,25 +19,24 @@ Condenser is a virtual machine: a slice of a bigger physical server that UCL run
 minutes and never had to touch.
 [screen: lscpu on the VM, highlighting the "Hypervisor vendor" line — TODO(A): capture Monday]
 Sharing a server is also the security problem. Other people's machines run on the same hardware, so
-access has to be locked down: our own login, no passwords or keys in our public code repository, and
-data files only we can read. Even the processor needs protecting: lscpu lists the patches for
+access is locked down: the machine is only reachable from UCL's browser-based JupyterHub, with an SSH
+key, no passwords or keys in our public code repository, and data files only we can read. Even the processor needs protecting: lscpu lists the patches for
 Spectre-style bugs, which could let one virtual machine spy on another through the shared CPU.
 [TODO(D): data in transit and at rest (SSH, encryption), and where the data physically lives]
-<!-- src: README.md section 2; lscpu "Vulnerabilities" section -->
+<!-- src: README.md section 2; lscpu "Vulnerabilities" section; ARC Slack 26 Oct ("you need the terminal in the interface") -->
 <!-- draft by A from the 25 Oct session; D owns this segment -->
 
 ## Q3: file permissions (0:30, ~70 words)
 
 The data file was world-readable. Why is this not desirable? Did we change it, how and why?
 
-When we downloaded the data, it came out readable by every user on the machine.
-[TODO(A): the VM's actual `ls -l` before, from notes/permissions-before.txt]
+When the data landed on our machine, it was readable by every user: `-rw-r--r--`.
 On a shared cloud machine that means anyone with an account could read patient-style records, so we
-restricted it to our own account with `chmod 600`, and our script creates its outputs without access
-for other users.
-[screen: ls -l before and after]
+moved it into a data folder only we can open and restricted the file to our own account with
+`chmod 600`, giving `-rw-------`. Our script creates its outputs without access for other users.
+[screen: ls -l before and after (ucl-evidence/q3-perms-*.png; crop out the IP)]
 [TODO(A): after checking on the VM, add one clause if true: no extra access via ACLs (`getfacl`, a `+` after the mode bits)]
-<!-- src: notes/2026-10-25-ada-setup.md -->
+<!-- src: notes/2026-10-25-ada-setup.md; VM session 27 Oct (ls -l before/after) -->
 
 ## Q4, Q5: data (0:55, ~130 words)
 

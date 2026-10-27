@@ -23,3 +23,21 @@ One entry per work session, added by `/script`. Evidence for the teamwork marks 
   concrete example of why shared cloud hardware needs security; ACLs can grant access that `ls -l`
   doesn't show, so we'll check `getfacl` on the VM too.
 - Worked with: role guides now in `guides/` for Bobby (B) and whoever takes C and D.
+
+## 2026-10-27 10:00 · Ada Ge (A)
+- Did: got onto the team VM through Condenser's JupyterHub terminal; downloaded the repo, built the
+  venv and pinned pandas 3.1.0 / scikit-learn 1.9.1 / matplotlib 3.11.2 (Python 3.12.13); moved the
+  data into `data/` and locked it down; ran the script end to end on the VM (34 s, 20 output files,
+  same results as on a laptop). Bobby (B) can now run his script there.
+- Problem: only Eric's login email arrived, and the SSH username wasn't in either email; guessing
+  `root`, `ubuntu`, `almalinux` and others failed → How we solved it: shared Eric's JupyterHub login as
+  instructed, and found the username (`cc`) in the access PDF the organisers posted on Slack.
+- Problem: we wanted to SSH from our own laptops; tried the CS department's gateway, but it timed out
+  → How we solved it: asked the organisers on Slack, who confirmed access is only through the
+  JupyterHub terminal, so the ReadMe documents that route.
+- Problem: the VM has no git (and no root to install it) → How we solved it: downloaded the repo as a
+  tarball with curl, as planned in guide A.
+- Problem: the data file arrived world-readable (`-rw-r--r--`) → How we solved it: recorded it first
+  for Q3, then `chmod 700 data` and `chmod 600` on the file.
+- Worked with: Eric (shared login, first data download on Monday); Claude typed in the JupyterHub
+  terminal via the browser while Ada directed.
