@@ -1,0 +1,3 @@
+# Data file permissions on the VM, before we changed them (27 Oct 2026, ~09:45)
+# Downloaded into ~ on Mon 26 Oct; ls -l ~/dig_health_hub_amr.csv
+-rw-r--r--. 1 cc cc 94198 Oct 26 16:44 dig_health_hub_amr.csv

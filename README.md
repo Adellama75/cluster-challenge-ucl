@@ -9,22 +9,28 @@ deprivation (IMD), and runs on UCL's Condenser cloud platform.
 Already set up on our VM. To rerun it:
 
 ```bash
-cd ~/cluster-challenge-ucl            # [Mon: confirm path]
+cd ~/cluster-challenge-ucl
 source .venv/bin/activate
-python src/amr_trees.py               # about 20 seconds; results in outputs/
+python src/amr_trees.py               # about 35 seconds on the VM; results in outputs/
 cat outputs/run_summary_age_imd.txt   # best tree, best model, main risk factors
 ```
 
-From scratch on a new machine (Python 3 and internet access needed; no root):
+From scratch on a new machine (Python 3 and internet access needed; no root). Condenser has no git,
+so the code comes down from GitHub as a tarball:
 
 ```bash
-git clone https://github.com/adellama75/cluster-challenge-ucl.git && cd cluster-challenge-ucl
+curl -L -o repo.tar.gz https://github.com/adellama75/cluster-challenge-ucl/archive/refs/heads/main.tar.gz
+tar xzf repo.tar.gz && mv cluster-challenge-ucl-main cluster-challenge-ucl && rm repo.tar.gz
+cd cluster-challenge-ucl
 python3 -m venv .venv && source .venv/bin/activate && pip install -r requirements.txt
-mkdir -p data && curl -L -o data/dig_health_hub_amr.csv \
+mkdir -p data && chmod 700 data && curl -L -o data/dig_health_hub_amr.csv \
   "https://drive.google.com/uc?export=download&id=1KeMv2GaR824SNW2_KDDfCrcSpIObjui0"
 chmod 600 data/dig_health_hub_amr.csv
 python src/amr_trees.py
 ```
+
+(Where git is available, `git clone https://github.com/adellama75/cluster-challenge-ucl.git` replaces
+the first three lines.)
 
 ## Layout
 
@@ -43,7 +49,7 @@ python src/amr_trees.py
 On the Condenser VM (AlmaLinux, no root access), as our own user:
 
 ```bash
-python3 --version                     # [Mon: version]
+python3 --version                     # Python 3.12.13 on our VM
 python3 -m venv .venv                 # isolated environment inside the project folder
 source .venv/bin/activate
 pip install --upgrade pip
@@ -56,35 +62,53 @@ them), and `requirements.txt` pins the exact versions, so `pip install -r requir
 the same environment. Graphviz is not installed (it needs root), so the script draws trees with
 matplotlib instead.
 
-We also installed the `micro` text editor into `~/bin` (the VM only has vim):
+The VM has no git and no text editor, and without root we can't install them. So GitHub is the single
+source of truth: we edit on our laptops, push, and fetch changed files onto the VM with `curl` from
+GitHub's raw URLs. The VM copy is never edited directly. For example:
 
 ```bash
-mkdir -p ~/bin && cd ~/bin && curl https://getmic.ro | bash && cd ~
-echo 'export PATH="$HOME/bin:$PATH"' >> ~/.bashrc
+cd ~/cluster-challenge-ucl
+curl -sL -o src/amr_trees.py https://raw.githubusercontent.com/adellama75/cluster-challenge-ucl/main/src/amr_trees.py
+head -3 src/amr_trees.py              # check: Python code, not "404: Not Found"
 ```
 
 ## 2 Accessing the environment
 
-1. Log in to Condenser with the account details from the Condenser welcome email.
-   [Mon: web interface or SSH, and the exact steps]
-2. Connect to our team server, using the details from the ARC Education email.
-   [Mon: how]
-3. The project is in `~/cluster-challenge-ucl` [Mon: confirm]. Run `source .venv/bin/activate` before
-   using Python.
+Our server is only reachable from inside Condenser's web interface (a JupyterHub); there is no direct
+SSH from outside.
+
+1. Open https://cluster-challenge.arc.ucl.ac.uk, choose **Sign in with AWS Cognito**, and sign in with
+   the username and temporary password from the Condenser welcome email (you set a new password the
+   first time).
+2. Choose **CPU Server** and **Start**. JupyterLab opens after a short wait.
+3. Open a terminal (**File > New > Terminal**). The first time, save the team's private SSH key from the
+   ARC Education email into `~/.ssh/id_ed25519`, then restrict it (repeat the `chmod` if the JupyterHub
+   container restarts):
+   ```bash
+   mkdir -p ~/.ssh && chmod 700 ~/.ssh
+   # paste the key into ~/.ssh/id_ed25519 with the JupyterLab text editor
+   chmod 600 ~/.ssh/id_ed25519
+   ```
+4. Connect to the team server as user `cc`, with the IP address from the ARC Education email:
+   ```bash
+   ssh cc@<server IP>
+   ```
+5. The project is in `~/cluster-challenge-ucl`. Run `source .venv/bin/activate` before using Python.
 
 No passwords, keys or addresses are stored in this repository.
 
 ## 3 Getting the data
 
 ```bash
-mkdir -p data
+mkdir -p data && chmod 700 data
 curl -L -o data/dig_health_hub_amr.csv \
   "https://drive.google.com/uc?export=download&id=1KeMv2GaR824SNW2_KDDfCrcSpIObjui0"
 chmod 600 data/dig_health_hub_amr.csv
 ```
 
-The file is downloaded readable by every user on the machine. It holds patient-style health records
-(synthetic, but treated as real), so `chmod 600` makes it readable and writable by our account only.
+The file is downloaded readable by every user on the machine (`-rw-r--r--`). It holds patient-style
+health records (synthetic, but treated as real), so `chmod 600` makes it readable and writable by our
+account only (`-rw-------`), and `chmod 700` stops other users even listing the `data/` folder.
 Before and after: `notes/permissions-before.txt`, `notes/permissions-after.txt`.
 
 ## 4 Running the script
@@ -94,7 +118,7 @@ source .venv/bin/activate
 python src/amr_trees.py --data data/dig_health_hub_amr.csv --out outputs
 ```
 
-Takes about 20 seconds. It fits decision trees (plain and class-balanced), bagging, random forests and
+Takes about 35 seconds on the VM. It fits decision trees (plain and class-balanced), bagging, random forests and
 gradient boosting at depths 1 to 8, picks the best by 5-fold cross-validated balanced accuracy, and writes
 to `outputs/`:
 
@@ -109,5 +133,17 @@ to `outputs/`:
 | `feature_importance_age_imd.png` | Main risk factors |
 
 Options: `--features age imd sex_male had_surgery_past_yr` adds columns, `--max-depth`, `--test-size`,
-`--seed` (default 42, for reproducible results). Output files are created without read access for other
-users.
+`--seed` (default 42, for reproducible results). The script sets `umask 027`, but `outputs/` comes with the
+download and overwriting a file keeps its old permissions, so lock it down after a run:
+`chmod 750 outputs && chmod 640 outputs/*`.
+
+## 5 Getting results off the VM
+
+There's no git on the VM to push with, and the JupyterLab file browser shows the JupyterHub container,
+not the server. So results come off in two hops. In the JupyterLab terminal, **not** inside `ssh`:
+
+```bash
+ssh cc@<server IP> 'cd ~/cluster-challenge-ucl && tar czf - outputs' > ~/outputs.tar.gz
+```
+
+Then right-click `outputs.tar.gz` in the JupyterLab file browser and choose **Download**.

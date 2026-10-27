@@ -1,0 +1,4 @@
+# After: moved into data/, chmod 700 data, chmod 600 on the file (27 Oct 2026, 09:51)
+# ls -ld data; ls -l data
+drwx------. 2 cc cc    36 Oct 27 09:51 data
+-rw-------. 1 cc cc 94198 Oct 26 16:44 dig_health_hub_amr.csv

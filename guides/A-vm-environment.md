@@ -19,15 +19,13 @@ Run `/script` after each session, with a line of notes.
    ```
    *Interpret:* the Python version decides which package versions install. Below 3.11, pandas 3 won't
    install, but older pandas works fine with our script.
-4. **Install micro** (no root needed; it lands in the current folder):
+4. **No editor on the VM** (no vim, no micro, no root). That's fine: we never edit files on the VM.
+   Edit on the laptop, push, and curl the file onto the VM (see "Updating the VM without git").
+5. **Get the code.** Condenser has **no git**, so download the repo as a tarball:
    ```bash
-   mkdir -p ~/bin && cd ~/bin && curl https://getmic.ro | bash && cd ~
-   export PATH="$HOME/bin:$PATH"   # also add this line to ~/.bashrc
-   ```
-5. **Get the code** (if `git` exists; otherwise download the tarball with curl):
-   ```bash
-   git clone https://github.com/adellama75/cluster-challenge-ucl.git && cd cluster-challenge-ucl
-   # no git: curl -L -o repo.tar.gz https://github.com/adellama75/cluster-challenge-ucl/archive/refs/heads/main.tar.gz && tar xzf repo.tar.gz
+   cd ~ && curl -L -o repo.tar.gz https://github.com/adellama75/cluster-challenge-ucl/archive/refs/heads/main.tar.gz
+   tar xzf repo.tar.gz && mv cluster-challenge-ucl-main cluster-challenge-ucl && rm repo.tar.gz
+   cd cluster-challenge-ucl
    ```
 6. **Create the environment:**
    ```bash
@@ -61,13 +59,48 @@ Run `/script` after each session, with a line of notes.
    *Interpret:* about 20 files; the last lines printed are the best tree, the best model and the risk
    factors. Files should show `-rw-r-----` (not readable by others): the script sets that itself.
 
+## Updating the VM without git
+
+GitHub and the VM copy are two separate things. The rule: **edit on the laptop, push to GitHub, then
+curl the changed file onto the VM.** Never edit the VM copy, or the two drift apart.
+
+One file (the path after `main/` is the path in the repo):
+```bash
+cd ~/cluster-challenge-ucl
+R=https://raw.githubusercontent.com/adellama75/cluster-challenge-ucl/main
+curl -sL -o src/amr_trees.py $R/src/amr_trees.py
+head -3 src/amr_trees.py        # should be Python, not "404: Not Found"
+```
+
+Everything again. `outputs/` **is** in the repo, so leave it out or the VM's latest run gets overwritten
+(`data/` and `.venv/` aren't in the tarball, so they're safe):
+```bash
+cd ~ && curl -L -o repo.tar.gz https://github.com/adellama75/cluster-challenge-ucl/archive/refs/heads/main.tar.gz
+tar xzf repo.tar.gz --exclude='*/outputs' && cp -r cluster-challenge-ucl-main/. cluster-challenge-ucl/
+rm -r cluster-challenge-ucl-main repo.tar.gz
+```
+
+Getting results **off** the VM takes two hops, because the JupyterLab file browser shows the JupyterHub
+container, not the VM. In the JupyterLab terminal (**not** inside `ssh`):
+```bash
+ssh cc@<server IP> 'cd ~/cluster-challenge-ucl && tar czf - outputs' > ~/outputs.tar.gz
+```
+Then right-click `outputs.tar.gz` in the file browser, **Download**, unpack into the repo on the laptop
+and commit, so `outputs/` on GitHub matches the VM.
+
 ## Tuesday to Thursday: README and checks
 
 10. **Fill in the `[Mon: …]` gaps in `README.md`** (login steps, Python version, project path) and
     check every command matches what you actually ran. Every command must be copy-pasteable.
 11. **After B's final script (Wednesday 18:00), rerun on the VM** so `outputs/` matches the final code.
-12. **Thursday, fresh-clone test:** in a new folder on the VM, follow the README word for word (clone,
-    venv, data, run). If you have to do anything not written down, add it to the README.
+12. **Thursday, fresh-download test:** in a new folder on the VM, follow the README's "From scratch"
+    block word for word (tarball, venv, data, run). If you have to do anything not written down, add it
+    to the README. Then delete the test folder so the home folder stays tidy:
+    ```bash
+    mkdir -p ~/readme-test && cd ~/readme-test
+    # ...the README's "From scratch" block, exactly as written...
+    cd ~ && rm -r ~/readme-test
+    ```
 13. **File-name and storage check:** everything the script makes is in `outputs/` with names that say
     what they are; no stray files in the home folder; `ls -l` on data and outputs shows nothing
     world-readable.
@@ -75,6 +108,8 @@ Run `/script` after each session, with a line of notes.
 ## Friday by 18:00: final VM check
 
 - [ ] README, `src/amr_trees.py`, `data/dig_health_hub_amr.csv`, `outputs/` with the final run all on the VM
+- [ ] VM copies of `src/amr_trees.py`, `README.md`, `requirements.txt` identical to GitHub `main`
+      (`md5sum` on the VM vs `md5sum` on a laptop after `git pull`)
 - [ ] `requirements.txt` pinned to the VM's versions
 - [ ] `ls -l` shows no world-readable data or outputs
 - [ ] Team name in the README
