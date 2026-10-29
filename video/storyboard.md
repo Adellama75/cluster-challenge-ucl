@@ -23,7 +23,9 @@ Times are from the word counts at 140 words per minute.
 | | **Total** | | | | **4:43** |
 
 Every segment also has a slide in the team deck: 13 slides in storyboard order, with each segment's
-narration in its speaker notes. Record over the slide, or over the screens above where you have
+narration in its speaker notes. The deck is in this folder as `UCLuster-Too-video-slides.pptx`
+(notes in Presenter View; slides are images, so edit the deck, not the file) and
+`UCLuster-Too-video-slides.pdf`. Record over the slide, or over the screens above where you have
 them. Q4 and the Q6 tree are full-frame figures.
 
 Numbers and words such as "76%" or "chmod 600" take longer to say than to count, and each cut
@@ -39,8 +41,7 @@ Eric reads it over Bobby's screen recording (guide A allows this).
 - [ ] Q3: `cat notes/permissions-before.txt notes/permissions-after.txt` in a large-font terminal, or
       Bobby's screenshots from 27 Oct if he took them (IP cropped out).
 - [x] Q4: `video/q4_our_data_vs_england_wales.png`, 1920 × 1080, ready.
-- [x] Title card, Q5 slide and closing card: in the team slide deck (Eric shares the link, or exports
-      it as PDF or PowerPoint).
+- [x] Title card, Q5 slide and closing card: in `video/UCLuster-Too-video-slides.pptx` and `.pdf`.
 - [x] Q6 and Q7: `video/q6_model_comparison.png`, `video/q6_final_tree_readable.png` (the final tree
       with plain questions, 1920 × 1080), `video/q6_risk_factors_vs_noise.png` and
       `video/q7_odds_ratios.png`, each with the result the narration names in colour. The deck slides
