@@ -284,6 +284,11 @@ def main():
     save_odds_ratio_figure(ors, out / "risk_factors_adjusted_odds_ratios.png")
     lines = summary_lines(args, df, table, ors, forest)
     (out / "risk_factors_summary.txt").write_text("\n".join(lines) + "\n")
+    # umask only covers new files: outputs/ comes with the repo, and overwriting keeps old modes
+    out.chmod(0o750)
+    for f in out.iterdir():
+        if f.is_file():
+            f.chmod(0o640)
     print("\n".join(lines))
 
 

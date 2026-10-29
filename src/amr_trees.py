@@ -246,6 +246,11 @@ def main():
         f"pandas {pd.__version__}, matplotlib {matplotlib.__version__}",
     ]
     (out / f"run_summary_{tag}.txt").write_text("\n".join(summary) + "\n")
+    # umask only covers new files: outputs/ comes with the repo, and overwriting keeps old modes
+    out.chmod(0o750)
+    for f in out.iterdir():
+        if f.is_file():
+            f.chmod(0o640)
     print("\n".join(summary))
     print(f"wrote {len(list(out.iterdir()))} files to {out}/")
 
