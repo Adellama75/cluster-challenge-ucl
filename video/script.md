@@ -60,7 +60,7 @@ though ours is synthetic, we treated it as real. So we moved it into a data fold
 `chmod 600`, giving `-rw-------`. Our script creates its outputs without access for other users.
 [screen: ls -l before and after (ucl-evidence/q3-perms-*.png; crop out the IP)]
 [TODO(A): after checking on the VM, add one clause if true: no extra access via ACLs (`getfacl`, a `+` after the mode bits)]
-<!-- src: notes/2026-10-25-ada-setup.md; VM session 27 Oct (ls -l before/after) -->
+<!-- src: notes/2026-10-25-data-first-look.md; VM session 27 Oct (ls -l before/after) -->
 
 ## Q4: Why would you want a representative data set for machine learning? (0:30, ~70 words)
 
@@ -71,7 +71,7 @@ its ethnic groups are about a fifth each, while about 82% of people in England a
 A model trained on it could perform well in testing and still be wrong in the real world, especially
 for the groups it rarely saw.
 [screen: bar chart of age range and ethnicity mix — TODO(C): make it]
-<!-- src: notes/2026-10-25-ada-setup.md (data), 2021 Census for the 82% -->
+<!-- src: notes/2026-10-25-data-first-look.md (data), 2021 Census for the 82% -->
 
 ## Q5: Why would we want to use synthetic data instead of actual patient data? (0:25, ~60 words)
 
@@ -98,7 +98,7 @@ at risk. Deprivation barely matters, and the random forest agrees.
 <!-- src: VM run 29 Oct (outputs/run_summary_age_imd.txt, tree_balanced_depth3_age_imd.txt, model_comparison.csv) -->
 <!-- CV balanced accuracy, balanced tree: 0.659 at depth 3, falling to 0.584 at depth 8 -->
 <!-- test: tree balanced acc 0.622, recall 0.650, AUC 0.685; forest balanced acc 0.675, recall 0.733, AUC 0.718 -->
-<!-- resistance-by-age figures (8% at 20-40, 41% over 70) moved out for time; source notes/2026-10-25-ada-setup.md -->
+<!-- resistance-by-age figures (8% at 20-40, 41% over 70) moved out for time; source notes/2026-10-25-data-first-look.md -->
 <!-- note: the depth-3 tree's 61.5-64.5 branch predicts susceptible, so "above 48 resistant" is a simplification -->
 <!-- note: a depth-1 tree has the same CV score (0.655 vs 0.659) and higher test recall (0.733) -->
 <!-- feature importance (random forest): age 0.91, imd 0.09; first split at age 48 -->
