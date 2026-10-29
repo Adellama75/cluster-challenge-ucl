@@ -3,8 +3,8 @@
 Draft narration, updated by `/script` after each work session. Budgets are at 140 words per minute.
 Mark finished lines with `<!-- locked -->` so `/script` leaves them alone.
 
-**Status 29 Oct (D):** timing pass done. The spoken total is about 670 words, about 4:47 at 140 words
-per minute. It was 840 words, about 6:00. Segments were cut down to their main points, and what was
+**Status 29 Oct (D):** timing pass done. The spoken total is about 675 words, about 4:49 at 140 words
+per minute, after a plain-language pass on Q4, Q6 and Q7. It was 840 words, about 6:00. Segments were cut down to their main points, and what was
 cut is noted under each one. Intro, Q1, Q2, Q8 and the outro are final. Q3 to Q7 owners: check your
 lines, time one read-through against `storyboard.md`, then lock them. One paragraph per line, so the
 cut list in `storyboard.md` can be found by searching.
@@ -53,24 +53,25 @@ When the data file landed on our machine, any user could read it. On a shared ma
 
 ## Q4: Why would you want a representative data set for machine learning? (0:30, ~70 words)
 
-A model only learns the patients it's shown, so training data should match the people it will be used on. Ours covers only ages 20 to 79. Each ethnic group is about a fifth of it, yet about 82% of people in England and Wales are White, so most real people belong to our data's smallest group. A model can test well and still fail them: that's how algorithmic bias arises.
+A model only learns the patients it's shown, so training data should match the people it will be used on. Ours covers only ages 20 to 79. Each ethnic group is about a fifth of it, yet about 82% of people in England and Wales are White, so most real people belong to our data's smallest group. A model can score well in testing and still do badly for them, and that's algorithmic bias.
 [screen: video/q4_our_data_vs_england_wales.png]
 <!-- src: notes/2026-10-25-data-first-look.md and notes/2026-10-29-model-checks.md (ages 20-79; each ethnic group 17.6-21.1%, White the smallest at 17.6%); ONS Census 2021, England and Wales: White 81.7% (ethnicity-facts-figures.service.gov.uk) -->
 <!-- chart made by D, 29 Oct, from the same numbers; C: replace it if you have your own -->
 <!-- reworded by D, 29 Oct, after review: names White as the under-represented group, and "algorithmic bias" because the marking criteria use the term -->
+<!-- plainer last sentence by D, 29 Oct, after an outside review flagged "that's how algorithmic bias arises" -->
 
 ## Q5: Why would we want to use synthetic data instead of actual patient data? (0:25, ~60 words)
 
 Real patient records are sensitive health data, tightly protected by UK GDPR, and patients may not have agreed to this use. Synthetic data is designed to mimic real data without containing any real people, so we can build and test models, even on a shared cloud machine, with far less privacy risk.
-[screen: text slide: "Synthetic data: real patterns, no real patients"]
+[screen: text slide: "Synthetic data is made to mimic real data, with no real people in it"]
 <!-- shortened by D, 29 Oct; UK GDPR and "far less privacy risk" as guide C puts it -->
 
 ## Q6: What is our final tree model, and why is it the most optimal? (0:45, ~105 words)
 
-Only about a quarter of patients are resistant, so plain accuracy misleads: calling everyone safe scores 76% yet misses every resistant patient. So we weighted resistant cases more heavily and ranked models on balanced accuracy, which gives both groups equal weight.
+Only about a quarter of patients are resistant, so plain accuracy is misleading: calling everyone safe scores 76% but misses every resistant patient. So we weighted resistant cases more heavily and ranked models on balanced accuracy, which gives both groups equal weight.
 [screen: outputs/balanced_accuracy_vs_depth_age_imd.png]
 
-We compared tree types and depths. Random forests scored slightly higher, but they're two hundred trees voting, which no one can follow. Our depth-3 tree scored best of the single trees, a doctor can read it, and deeper trees overfit.
+Random forests scored slightly higher, but that's two hundred trees voting, which you can't read like a single tree. Our depth-3 tree scored best of the single trees, a doctor can read it, and deeper trees overfit.
 [screen: video/q6_final_tree_readable.png]
 
 Older patients are most at risk: resistance is 8% at ages 20 to 40, but 41% over 70. No other factor we tested beat random noise.
@@ -85,13 +86,16 @@ Older patients are most at risk: resistance is 8% at ages 20 to 40, but 41% over
 <!-- note: the depth-3 tree's 61.5-64.5 branch predicts susceptible, so "above 48 resistant" is a simplification; the first split (age 48.5) is in the tree screen's title -->
 <!-- note: feature_importance_age_imd.png gives imd 0.09 (impurity importance), and that measure favours many-valued columns: in the noise-check forest a continuous column of random numbers gets 0.16 against imd's 0.07, while permutation importance puts imd (0.004) level with the noise columns (outputs/risk_factors_forest_importance.csv), so it isn't evidence that deprivation matters -->
 <!-- shortened by D, 29 Oct, after review: depth-3 reason is its score; who-is-at-risk figures and the noise check added -->
+<!-- plainer wording by D, 29 Oct, after an outside review flagged "misleads" and "which no one can follow"; first cut-list line ("We compared tree types and depths.") applied to stay under 5:00 -->
+<!-- note: "beat random noise" means beating its shuffled copies in both the regression and the tree; the diagnosis (ICD chapter) tree alone scores 0.524 against 0.519, but its regression doesn't (outputs/risk_factors_summary.txt) -->
 
 ## Q7: What other modelling techniques could we use, and why? (0:25, ~60 words)
 
-Logistic regression suits this data: it fits a smooth rise in risk with age, not sharp cut-offs, and gives odds ratios clinicians already use. We tried it and it matched our tree, with the odds of resistance rising by more than half per decade of age. A neural network would be overkill for a thousand patients and one real risk factor.
+Logistic regression suits this data. It fits risk rising smoothly with age, where a tree can only make steps, and it gives odds ratios, which clinicians already use. We tried it and it matched our tree, with the odds of resistance rising by more than half per decade of age. We didn't need a neural network for a thousand patients and one real risk factor.
 [screen: outputs/risk_factors_adjusted_odds_ratios.png]
 <!-- src: "matched our tree": class-weighted logistic regression on age and imd, same split and folds, CV balanced accuracy 0.660 vs the tree's 0.659 (notes/2026-10-29-model-checks.md). "More than half per decade": odds ratio per 10 years of age 1.54 in that fit, and 1.59 (1.44 to 1.76) adjusted for the other patient factors (outputs/risk_factors_adjusted_odds_ratios.csv) -->
 <!-- updated by D with C's checks, 29 Oct; C: check before recording -->
+<!-- plainer wording by D, 29 Oct, after an outside review flagged "not sharp cut-offs" and "overkill" -->
 
 ## Q8: How did we work as a team? (1:00, ~140 words)
 

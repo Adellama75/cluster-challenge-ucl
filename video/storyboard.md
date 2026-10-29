@@ -1,7 +1,7 @@
 # Storyboard and recording plan
 
-Target length 4:45 to 4:55, hard limit 5:00, saved as MP4. Narration is in `script.md`: about 670
-spoken words, about 4:47 at 140 words per minute. Each segment is recorded as its own clip by its owner,
+Target length 4:45 to 4:55, hard limit 5:00, saved as MP4. Narration is in `script.md`: about 675
+spoken words, about 4:49 at 140 words per minute. Each segment is recorded as its own clip by its owner,
 and Eric (D) edits.
 
 ## Storyboard
@@ -14,20 +14,20 @@ Times are from the word counts at 140 words per minute.
 | 2 | Q1 Cloud compute | Eric | VM terminal: `lscpu` with the "Hypervisor vendor" line highlighted | 0:13 | 0:21 |
 | 3 | Q2 Data security | Eric | `lscpu` "Vulnerabilities" lines, then condenser.arc.ucl.ac.uk/about with "not certified for the secure storage and processing of sensitive data" highlighted | 0:34 | 0:33 |
 | 4 | Q3 File permissions | Bobby | `ls -l` of the data file before (`-rw-r--r--`) and after (`-rw-------`) | 1:07 | 0:28 |
-| 5 | Q4 Representative data | Ada | `video/q4_our_data_vs_england_wales.png` | 1:35 | 0:30 |
-| 6 | Q5 Synthetic data | Ada | Text slide: "Synthetic data: real patterns, no real patients" | 2:05 | 0:22 |
-| 7 | Q6 Final model | James | `outputs/balanced_accuracy_vs_depth_age_imd.png`, then `video/q6_final_tree_readable.png` from "Random forests", then the left panel of `outputs/risk_factors_vs_noise.png` from "Older patients" | 2:27 | 0:46 |
-| 8 | Q7 Other techniques | Ada | `outputs/risk_factors_adjusted_odds_ratios.png` | 3:13 | 0:26 |
-| 9 | Q8 Teamwork | Eric | `PLAN.md` roles table on GitHub, `video/teamwork-log.md`, then the repo's commit history | 3:39 | 0:57 |
-| 10 | Outro | Eric | Closing card: team name, the four names, github.com/adellama75/cluster-challenge-ucl | 4:36 | 0:10 |
-| | **Total** | | | | **4:46** |
+| 5 | Q4 Representative data | Ada | `video/q4_our_data_vs_england_wales.png` | 1:35 | 0:32 |
+| 6 | Q5 Synthetic data | Ada | Text slide: "Synthetic data is made to mimic real data, with no real people in it" | 2:07 | 0:22 |
+| 7 | Q6 Final model | James | `outputs/balanced_accuracy_vs_depth_age_imd.png`, then `video/q6_final_tree_readable.png` from "Random forests", then the left panel of `outputs/risk_factors_vs_noise.png` from "Older patients" | 2:29 | 0:45 |
+| 8 | Q7 Other techniques | Ada | `outputs/risk_factors_adjusted_odds_ratios.png` | 3:14 | 0:28 |
+| 9 | Q8 Teamwork | Eric | `PLAN.md` roles table on GitHub, `video/teamwork-log.md`, then the repo's commit history | 3:42 | 0:57 |
+| 10 | Outro | Eric | Closing card: team name, the four names, github.com/adellama75/cluster-challenge-ucl | 4:39 | 0:10 |
+| | **Total** | | | | **4:49** |
 
 Every segment also has a slide in the team deck: 14 slides in storyboard order, with each segment's
 narration in its speaker notes. Record over the slide, or over the screens above where you have
 them. Q4 and the Q6 tree are full-frame figures.
 
 Numbers and words such as "76%" or "chmod 600" take longer to say than to count, and each cut
-between clips adds a moment, so expect the edit to come out nearer 4:55. If Bobby can't record Q3,
+between clips adds a moment, so expect the edit to come out nearer 4:58. If Bobby can't record Q3,
 Eric reads it over Bobby's screen recording (guide A allows this).
 
 ## Screens to prepare before recording
@@ -79,9 +79,11 @@ Each cut is a whole sentence or clause, so what's left still reads correctly.
 
 | Segment | Cut | Saves |
 |---|---|---|
-| Q6 | "We compared tree types and depths." (the depth plot shows it) | 3 s |
 | Q3 | "Our script's outputs are closed to other users too." | 4 s |
-| Q7 | ", and gives odds ratios clinicians already use" | 3 s |
-| Q2 | "lscpu lists the fixes for Spectre-style bugs that could let one machine spy on another." Drop the `lscpu` Vulnerabilities screen with it | 6 s |
+| Q7 | ", and it gives odds ratios, which clinicians already use" | 4 s |
+| Q2 | "lscpu lists the fixes for Spectre-style bugs that could let one machine spy on another." Drop the `lscpu` Vulnerabilities screen and the slide's lscpu bullet with it | 6 s |
+
+The first cut on the original list (Q6, "We compared tree types and depths.") is already applied in
+`script.md`.
 
 Don't cut Q8. Teamwork carries 15 marks.
