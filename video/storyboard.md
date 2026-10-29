@@ -22,6 +22,10 @@ Times are from the word counts at 140 words per minute.
 | 10 | Outro | Eric | Closing card: team name, the four names, github.com/adellama75/cluster-challenge-ucl | 4:36 | 0:10 |
 | | **Total** | | | | **4:46** |
 
+Every segment also has a slide in the team deck: 14 slides in storyboard order, with each segment's
+narration in its speaker notes. Record over the slide, or over the screens above where you have
+them. Q4 and the Q6 tree are full-frame figures.
+
 Numbers and words such as "76%" or "chmod 600" take longer to say than to count, and each cut
 between clips adds a moment, so expect the edit to come out nearer 4:55. If Bobby can't record Q3,
 Eric reads it over Bobby's screen recording (guide A allows this).
@@ -37,7 +41,8 @@ Eric reads it over Bobby's screen recording (guide A allows this).
 - [ ] Q3: `cat notes/permissions-before.txt notes/permissions-after.txt` in a large-font terminal, or
       Bobby's screenshots from 27 Oct if he took them (IP cropped out).
 - [x] Q4: `video/q4_our_data_vs_england_wales.png`, 1920 × 1080, ready.
-- [ ] Q5 text slide, title card and closing card: made in the editor (Eric).
+- [x] Title card, Q5 slide and closing card: in the team slide deck (Eric shares the link, or exports
+      it as PDF or PowerPoint).
 - [x] Q6: `video/q6_final_tree_readable.png` is the final tree at 1920 × 1080 with large text. The
       tree in `outputs/` is 3285 px wide, too small to read in a video. The other Q6 and Q7 figures are
       in `outputs/`. Open each one full screen and crop to the plot.
