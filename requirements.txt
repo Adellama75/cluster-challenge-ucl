@@ -1,4 +1,4 @@
-# Only what src/amr_trees.py imports (numpy comes with these).
+# Only what src/amr_trees.py and src/risk_factors.py import (numpy comes with these).
 # Pinned to what pip installed on the Condenser VM (Python 3.12.13), 27 Oct 2026.
 pandas==3.1.0
 scikit-learn==1.9.1

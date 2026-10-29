@@ -1,0 +1,8 @@
+column,auc_drop_mean,auc_drop_std,impurity_importance
+age,0.2025,0.0334,0.6178
+imd,0.0044,0.0079,0.0661
+ethnicity,0.0017,0.0064,0.0594
+noise_continuous,0.0012,0.0067,0.1601
+sex_male,0.0009,0.0054,0.03
+noise_five_levels,-0.0032,0.0037,0.0471
+had_surgery_past_yr,-0.0048,0.0078,0.0196

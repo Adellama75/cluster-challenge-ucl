@@ -1,0 +1,32 @@
+data: data/dig_health_hub_amr.csv (1000 rows, 24.1% resistant); seed 42; 100 shuffled copies per factor
+each factor on its own (5-fold cross-validated ROC AUC, 0.5 = chance; in brackets the score 95% of shuffled copies stay below):
+  Age: regression 0.708 (0.540), tree 0.685 (0.533) -> beats noise
+  Sex (male): regression 0.522 (0.535), tree 0.522 (0.534) -> noise
+  Surgery in past year: regression 0.478 (0.519), tree 0.478 (0.520) -> noise
+  Deprivation (IMD quintile): regression 0.537 (0.551), tree 0.521 (0.541) -> noise
+  Ethnicity: regression 0.506 (0.543), tree 0.503 (0.537) -> noise
+  NHS trust (238): regression 0.501 (0.550), tree 0.504 (0.512) -> noise
+  Diagnosis (ICD chapter): regression 0.510 (0.547), tree 0.524 (0.519) -> noise
+  Random numbers (control): regression 0.480 (0.540), tree 0.492 (0.530) -> noise
+age, sex, surgery, deprivation and ethnicity together (trust and diagnosis left out), adjusted odds ratio (95% interval):
+  Age (per 10 years): 1.59 (1.44 to 1.76)
+  Male (vs female): 1.24 (0.91 to 1.69)
+  Surgery in past year (vs none): 0.89 (0.53 to 1.49)
+  IMD quintile 2 (vs 1, most deprived): 0.69 (0.42 to 1.13)
+  IMD quintile 3 (vs 1, most deprived): 0.60 (0.36 to 0.97)
+  IMD quintile 4 (vs 1, most deprived): 0.92 (0.58 to 1.48)
+  IMD quintile 5 (vs 1, most deprived): 0.90 (0.56 to 1.43)
+  Asian (vs White): 0.82 (0.51 to 1.34)
+  Black (vs White): 0.79 (0.48 to 1.28)
+  Mixed (vs White): 0.63 (0.38 to 1.04)
+  Other (vs White): 0.78 (0.48 to 1.26)
+random forest, drop in test ROC AUC when a column is shuffled (mean +/- sd):
+  Age: 0.202 +/- 0.033
+  Deprivation (IMD quintile): 0.004 +/- 0.008
+  Ethnicity: 0.002 +/- 0.006
+  Random numbers (continuous): 0.001 +/- 0.007
+  Sex (male): 0.001 +/- 0.005
+  Random numbers (5 levels): -0.003 +/- 0.004
+  Surgery in past year: -0.005 +/- 0.008
+beats noise on its own: Age; every other factor fails at least one of the two tests
+python 3.12.10, scikit-learn 1.9.1, pandas 3.0.6, matplotlib 3.11.2

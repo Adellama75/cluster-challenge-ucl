@@ -1,8 +1,9 @@
 # CIUK 2026 UCL challenge: antimicrobial resistance tree models
 
 Team **UCLuster Too** (Ada Ge, Bobby Ta, Eric Huang, James Loke). `src/amr_trees.py` trains tree models
-to predict which patients' E. coli infections resist co-amoxiclav, from age and deprivation (IMD), and
-runs on UCL's Condenser cloud platform.
+to predict which patients' E. coli infections resist co-amoxiclav, from age and deprivation (IMD).
+`src/risk_factors.py` tests every patient factor in the data against noise to find the real risk
+factors. Both run on UCL's Condenser cloud platform.
 
 ## Quick start (on our VM)
 
@@ -10,7 +11,9 @@ runs on UCL's Condenser cloud platform.
 cd ~/cluster-challenge-ucl
 source .venv/bin/activate
 python src/amr_trees.py                 # about 35 seconds; results in outputs/
-cat outputs/run_summary_age_imd.txt     # best tree, best model, main risk factors
+cat outputs/run_summary_age_imd.txt     # best tree, best model, feature importance
+python src/risk_factors.py              # up to about 2 minutes
+cat outputs/risk_factors_summary.txt    # which factors beat noise, odds ratios
 ```
 
 ## 1 Accessing the environment
@@ -42,7 +45,7 @@ pip install pandas scikit-learn matplotlib
 pip freeze | grep -iE '^(pandas|scikit-learn|matplotlib)==' > requirements.txt
 ```
 
-Only the three packages the script imports are installed, pinned in `requirements.txt`. Graphviz needs
+Only the three packages the scripts import are installed, pinned in `requirements.txt`. Graphviz needs
 root, so trees are drawn with matplotlib instead.
 
 **From scratch** on a new machine (the VM has no git, so the code comes as a tarball):
@@ -65,18 +68,25 @@ chmod 600 data/dig_health_hub_amr.csv
 The file downloads readable by every user (`-rw-r--r--`). It holds patient-style records, so
 `chmod 600` limits it to our account (`-rw-------`) and `chmod 700` stops others listing `data/`.
 
-## 4 Running the script
+## 4 Running the scripts
 
 ```bash
 source .venv/bin/activate
 python src/amr_trees.py --data data/dig_health_hub_amr.csv --out outputs
+python src/risk_factors.py --data data/dig_health_hub_amr.csv --out outputs
 chmod 750 outputs && chmod 640 outputs/*
 ```
 
-It fits decision trees (plain and class-balanced), bagging, random forests and gradient boosting at
-depths 1 to 8, and ranks them by 5-fold cross-validated balanced accuracy (resistant cases are only 24%,
-so plain accuracy would reward predicting "susceptible" for everyone). Options: `--features` (add
-`sex_male had_surgery_past_yr`), `--max-depth`, `--test-size`, `--seed` (default 42).
+`amr_trees.py` fits decision trees (plain and class-balanced), bagging, random forests and gradient
+boosting at depths 1 to 8, and ranks them by 5-fold cross-validated balanced accuracy (resistant cases
+are only 24%, so plain accuracy would reward predicting "susceptible" for everyone). Options:
+`--features` (add `sex_male had_surgery_past_yr`), `--max-depth`, `--test-size`, `--seed` (default 42).
+
+`risk_factors.py` scores each patient factor on its own (age, sex, recent surgery, deprivation,
+ethnicity, NHS trust, diagnosis chapter, and a column of random numbers as a control) with a logistic
+regression and a small tree, and compares the score with shuffled copies of that factor. It then fits
+the factors together, as adjusted odds ratios and as a random forest that also gets two noise columns.
+Options: `--permutations` (shuffled copies per factor, default 100), `--seed` (default 42).
 
 Outputs in `outputs/`:
 
@@ -88,7 +98,12 @@ Outputs in `outputs/`:
 | `tree_balanced_depth*_age_imd.png` / `.txt` | Tree diagrams for depths 1–4, text for all depths |
 | `decision_surface_*_age_imd.png` | Predicted risk across age and deprivation |
 | `balanced_accuracy_vs_depth_age_imd.png` | Model quality vs depth |
-| `feature_importance_age_imd.png` | Main risk factors |
+| `feature_importance_age_imd.png` | Feature importance in the best model |
+| `risk_factors_summary.txt` | Which factors beat noise, odds ratios, forest importance, package versions |
+| `risk_factors_one_at_a_time.csv` | Each factor alone: cross-validated ROC AUC of a regression and a tree, noise band, verdict |
+| `risk_factors_vs_noise.png` | Each factor's score against its noise band, and the forest's importances |
+| `risk_factors_adjusted_odds_ratios.csv` / `.png` | Age, sex, surgery, deprivation and ethnicity together: odds ratios with 95% intervals |
+| `risk_factors_forest_importance.csv` | Random forest permutation importance next to two noise columns |
 
 ## 5 Updating code and retrieving results
 
