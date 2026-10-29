@@ -54,7 +54,7 @@ When the data file landed on our machine, any user could read it. On a shared ma
 ## Q4: Why would you want a representative data set for machine learning? (0:30, ~70 words)
 
 A model only learns the patients it's shown, so training data should match the people it will be used on. Ours covers only ages 20 to 79. Each ethnic group is about a fifth of it, yet about 82% of people in England and Wales are White, so most real people belong to our data's smallest group. A model can score well in testing and still do badly for them, and that's algorithmic bias.
-[screen: video/q4_our_data_vs_england_wales.png]
+[screen: the Q4 deck slide, with the chart in video/q4_our_data_vs_england_wales.png]
 <!-- src: notes/2026-10-25-data-first-look.md and notes/2026-10-29-model-checks.md (ages 20-79; each ethnic group 17.6-21.1%, White the smallest at 17.6%); ONS Census 2021, England and Wales: White 81.7% (ethnicity-facts-figures.service.gov.uk) -->
 <!-- chart made by D, 29 Oct, from the same numbers; C: replace it if you have your own -->
 <!-- reworded by D, 29 Oct, after review: names White as the under-represented group, and "algorithmic bias" because the marking criteria use the term -->
@@ -72,7 +72,7 @@ Only about a quarter of patients are resistant, so plain accuracy is misleading:
 [screen: video/q6_model_comparison.png, or the deck slide with it and the score table]
 
 Random forests scored slightly higher, but that's two hundred trees voting, which you can't read like a single tree. Our depth-3 tree scored best of the single trees, a doctor can read it, and deeper trees overfit.
-[screen: video/q6_final_tree_readable.png]
+[screen: the Q6 tree deck slide, with the tree in video/q6_final_tree_readable.png]
 
 Older patients are most at risk: resistance is 8% at ages 20 to 40, but 41% over 70. No other factor we tested beat random noise.
 [screen: deck slide with resistance by age group and video/q6_risk_factors_vs_noise.png]
@@ -92,7 +92,7 @@ Older patients are most at risk: resistance is 8% at ages 20 to 40, but 41% over
 ## Q7: What other modelling techniques could we use, and why? (0:25, ~60 words)
 
 Logistic regression suits this data. It fits risk rising smoothly with age, where a tree can only make steps, and it gives odds ratios, which clinicians already use. We tried it and it matched our tree, with the odds of resistance rising by more than half per decade of age. We didn't need a neural network for a thousand patients and one clear risk factor.
-[screen: video/q7_odds_ratios.png, or the deck slide with it and the two scores]
+[screen: the Q7 deck slide: 1.6 times the odds per 10 years of age, and every model we tried ranked by balanced accuracy]
 <!-- src: "matched our tree": class-weighted logistic regression on age and imd, same split and folds, CV balanced accuracy 0.660 vs the tree's 0.659 (notes/2026-10-29-model-checks.md). "More than half per decade": odds ratio per 10 years of age 1.54 in that fit, and 1.59 (1.44 to 1.76) adjusted for sex, surgery, deprivation and ethnicity (outputs/risk_factors_adjusted_odds_ratios.csv) -->
 <!-- updated by D with C's checks, 29 Oct; C: check before recording -->
 <!-- plainer wording by D, 29 Oct, after an outside review flagged "not sharp cut-offs" and "overkill" -->
