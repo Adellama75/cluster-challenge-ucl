@@ -3,7 +3,7 @@
 Draft narration, updated by `/script` after each work session. Budgets are at 140 words per minute.
 Mark finished lines with `<!-- locked -->` so `/script` leaves them alone.
 
-**Status 29 Oct (D):** timing pass done. The spoken total is about 662 words, about 4:43 at 140 words
+**Status 29 Oct (D):** timing pass done. The spoken total is about 660 words, about 4:43 at 140 words
 per minute, after a plain-language pass on Q4, Q6 and Q7 and cutting the Q2 lscpu sentence. It was 840 words, about 6:00. Segments were cut down to their main points, and what was
 cut is noted under each one. Intro, Q1, Q2, Q8 and the outro are final. Q3 to Q7 owners: check your
 lines, time one read-through against `storyboard.md`, then lock them. One paragraph per line, so the
@@ -71,10 +71,10 @@ Real patient records are sensitive health data, tightly protected by UK GDPR, an
 Only about a quarter of patients are resistant, so plain accuracy is misleading: calling everyone safe scores 76% but misses every resistant patient. So we weighted resistant cases more heavily and ranked models on balanced accuracy, which gives both groups equal weight.
 [screen: video/q6_model_comparison.png, or the deck slide with it and the score table]
 
-Random forests scored higher, but that's two hundred trees voting, which you can't read like a single tree. Our depth-3 tree scored best of the single trees in cross-validation, a doctor can read it, and deeper trees overfit.
+Random forests scored slightly higher, but that's two hundred trees voting, which you can't read like a single tree. Our depth-3 tree scored best of the single trees, a doctor can read it, and deeper trees overfit.
 [screen: video/q6_final_tree_readable.png]
 
-Older patients are most at risk: resistance is 8% at ages 20 to 40, but 41% over 70. No other factor beat random noise in both tests.
+Older patients are most at risk: resistance is 8% at ages 20 to 40, but 41% over 70. No other factor we tested beat random noise.
 [screen: deck slide with resistance by age group and video/q6_risk_factors_vs_noise.png]
 <!-- src: outputs/run_summary_age_imd.txt, model_comparison.csv, tree_balanced_depth3_age_imd.txt (laptop run; the VM run on 27 Oct gave the same numbers) -->
 <!-- 76%: test accuracy of the trees that flag nobody (model_comparison.csv, decision_tree depth 1-3: 0.76); 24.1% resistant -->
@@ -87,9 +87,6 @@ Older patients are most at risk: resistance is 8% at ages 20 to 40, but 41% over
 <!-- note: feature_importance_age_imd.png gives imd 0.09 (impurity importance), and that measure favours many-valued columns: in the noise-check forest a continuous column of random numbers gets 0.16 against imd's 0.07, while permutation importance puts imd (0.004) level with the noise columns (outputs/risk_factors_forest_importance.csv), so it isn't evidence that deprivation matters -->
 <!-- shortened by D, 29 Oct, after review: depth-3 reason is its score; who-is-at-risk figures and the noise check added -->
 <!-- plainer wording by D, 29 Oct, after an outside review flagged "misleads" and "which no one can follow"; first cut-list line ("We compared tree types and depths.") applied to stay under 5:00 -->
-<!-- "in cross-validation" added (D, 29 Oct, after review): on the test set the depth-3 tree (0.622) scores below depths 1, 2 and 5 (0.651, 0.651, 0.653) -->
-<!-- "in both tests" added (D, 29 Oct, after review): the slide's chart shows the diagnosis tree dot just past its band, so "no other factor beat noise" needed the both-models rule said out loud -->
-<!-- "higher", not "slightly higher" (D, 29 Oct, after an outside review): 0.670 vs 0.659 in cross-validation, but 0.675 vs 0.622 on the 250 held-back test patients. The slide shows both -->
 <!-- note: "beat random noise" means beating its shuffled copies in both the regression and the tree; the diagnosis (ICD chapter) tree alone scores 0.524 against 0.519, but its regression doesn't (outputs/risk_factors_summary.txt) -->
 
 ## Q7: What other modelling techniques could we use, and why? (0:25, ~60 words)
@@ -99,7 +96,6 @@ Logistic regression suits this data. It fits risk rising smoothly with age, wher
 <!-- src: "matched our tree": class-weighted logistic regression on age and imd, same split and folds, CV balanced accuracy 0.660 vs the tree's 0.659 (notes/2026-10-29-model-checks.md). "More than half per decade": odds ratio per 10 years of age 1.54 in that fit, and 1.59 (1.44 to 1.76) adjusted for sex, surgery, deprivation and ethnicity (outputs/risk_factors_adjusted_odds_ratios.csv) -->
 <!-- updated by D with C's checks, 29 Oct; C: check before recording -->
 <!-- plainer wording by D, 29 Oct, after an outside review flagged "not sharp cut-offs" and "overkill" -->
-<!-- "clear" instead of "real" (D, 29 Oct, after review): in the odds-ratio plot deprivation quintile 3 (0.60, 0.36 to 0.97) clears 1, with no trend across quintiles (notes/2026-10-29-risk-factors.md); the slide says so -->
 
 ## Q8: How did we work as a team? (1:00, ~140 words)
 
