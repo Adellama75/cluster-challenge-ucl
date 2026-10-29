@@ -45,7 +45,7 @@ cheap if done carefully, so A owns them full-time.
 **Step-by-step guides per role:** `guides/A-vm-environment.md`, `guides/B-model-script.md`,
 `guides/C-data-evaluation.md`, `guides/D-video.md`.
 
-**Who:** A = Ada, B = Bobby, C = TBC, D = TBC.
+**Who:** A = Bobby, B = James, C = Ada, D = Eric.
 
 **Pairs for cover:** A↔B (VM and script) and C↔D (analysis and video).
 
