@@ -17,7 +17,7 @@ Times are from the word counts at 140 words per minute.
 | 5 | Q4 Representative data | Ada | Deck slide with `video/q4_our_data_vs_england_wales.png` | 1:28 | 0:32 |
 | 6 | Q5 Synthetic data | Ada | Text slide: "Synthetic data lets us build models without putting real patients' records at risk" | 2:00 | 0:22 |
 | 7 | Q6 Final model | James | `video/q6_model_comparison.png` with the score table, then `video/q6_final_tree_readable.png` from "Random forests", then resistance by age and `video/q6_risk_factors_vs_noise.png` from "Older patients" (one deck slide each) | 2:22 | 0:45 |
-| 8 | Q7 Other techniques | Ada | Deck slide: 1.6 times the odds per 10 years of age, and every model we tried ranked by balanced accuracy | 3:07 | 0:28 |
+| 8 | Q7 Other techniques | Ada | Deck slide: 1.5 times the odds per 10 years of age, and every model we tried ranked by balanced accuracy | 3:07 | 0:28 |
 | 9 | Q8 Teamwork | Eric | `PLAN.md` roles table on GitHub, `video/teamwork-log.md`, then the repo's commit history | 3:35 | 0:58 |
 | 10 | Outro | Eric | Closing card: team name, the four names, github.com/adellama75/cluster-challenge-ucl | 4:33 | 0:10 |
 | | **Total** | | | | **4:43** |
@@ -49,7 +49,7 @@ Eric reads it over Bobby's screen recording (guide A allows this).
       plain questions and a 55-year-old's path) and `video/q6_risk_factors_vs_noise.png`,
       each with the result the narration names in colour. The tree in `outputs/` is 3285 px wide, too
       small to read in a video.
-- [x] Q7: the deck slide shows 1.6 times the odds per 10 years of age and every model we tried, ranked.
+- [x] Q7: the deck slide shows 1.5 times the odds per 10 years of age and every model we tried, ranked.
       `video/q7_odds_ratios.png` is a spare with the full odds-ratio table.
 - [ ] Q8: GitHub pages for `PLAN.md`, the teamwork log and the commit list, at 150% zoom (Eric).
 

@@ -92,7 +92,7 @@ Older patients are most at risk: resistance is 8% at ages 20 to 40, but 41% over
 ## Q7: What other modelling techniques could we use, and why? (0:25, ~60 words)
 
 Logistic regression suits this data. It fits risk rising smoothly with age, where a tree can only make steps, and it gives odds ratios, which clinicians already use. We tried it and it matched our tree, with the odds of resistance rising by more than half per decade of age. We didn't need a neural network for a thousand patients and one clear risk factor.
-[screen: the Q7 deck slide: 1.6 times the odds per 10 years of age, and every model we tried ranked by balanced accuracy]
+[screen: the Q7 deck slide: 1.5 times the odds per 10 years of age, and every model we tried ranked by balanced accuracy]
 <!-- src: "matched our tree": class-weighted logistic regression on age and imd, same split and folds, CV balanced accuracy 0.660 vs the tree's 0.659 (notes/2026-10-29-model-checks.md). "More than half per decade": odds ratio per 10 years of age 1.54 in that fit, and 1.59 (1.44 to 1.76) adjusted for sex, surgery, deprivation and ethnicity (outputs/risk_factors_adjusted_odds_ratios.csv) -->
 <!-- updated by D with C's checks, 29 Oct; C: check before recording -->
 <!-- plainer wording by D, 29 Oct, after an outside review flagged "not sharp cut-offs" and "overkill" -->
