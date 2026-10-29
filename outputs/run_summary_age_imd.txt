@@ -3,4 +3,4 @@ features: age, imd; test size 0.25; seed 42
 best single tree: decision_tree_balanced depth 3 (CV balanced accuracy 0.659; test: balanced accuracy 0.622, recall on resistant 0.650, ROC AUC 0.685)
 best model overall: random_forest depth 3 (CV balanced accuracy 0.670; test: balanced accuracy 0.675, recall on resistant 0.733, ROC AUC 0.718)
 feature importance (best model): age 0.91, imd 0.09
-python 3.12.3, scikit-learn 1.9.1, pandas 3.1.0, matplotlib 3.11.2
+python 3.14.4, scikit-learn 1.9.1, pandas 3.1.0, matplotlib 3.11.2
