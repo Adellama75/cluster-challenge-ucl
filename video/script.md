@@ -3,6 +3,12 @@
 Draft narration, updated by `/script` after each work session. Budgets are at 140 words per minute.
 Mark finished lines with `<!-- locked -->` so `/script` leaves them alone.
 
+**Status 29 Oct (D):** timing pass done. The spoken total is about 670 words, about 4:47 at 140 words
+per minute. It was 840 words, about 6:00. Segments were cut down to their main points, and what was
+cut is noted under each one. Intro, Q1, Q2, Q8 and the outro are final. Q3 to Q7 owners: check your
+lines, time one read-through against `storyboard.md`, then lock them. One paragraph per line, so the
+cut list in `storyboard.md` can be found by searching.
+
 | Segment | Time | Words |
 |---|---|---|
 | Intro | 0:15 | ~35 |
@@ -18,117 +24,87 @@ Mark finished lines with `<!-- locked -->` so `/script` leaves them alone.
 
 ## Intro (0:15, ~35 words)
 
-We're UCLuster Too: Ada, Bobby, Eric and James. Our task was to predict which patients' E. coli
-infections resist the antibiotic co-amoxiclav, using tree models, and to run it all on UCL's Condenser
-cloud platform.
-[screen: title card with team name and members]
+We're UCLuster Too: Ada, Bobby, Eric and James. We used tree models to predict which patients' E. coli infections resist the antibiotic co-amoxiclav, and ran them on UCL's Condenser cloud. <!-- locked -->
+[screen: title card: "UCLuster Too", CIUK 2026 UCL challenge, Ada Ge, Bobby Ta, Eric Huang, James Loke]
 
 ## Q1: What is cloud compute? (0:25, ~60 words)
 
-Cloud computing means renting computers over the internet instead of owning them. 
-
-Condenser is UCL cloud computing service and provides a way for us to rent a virtual machine (which is a software based computer that runs on shared physical hardware) to run our code. We can access it from anywhere and we don't have to worry about maintaining the hardware. 
-[screen: lscpu on the VM, highlighting the "Hypervisor vendor" line — TODO(A): capture Monday]
-<!-- src: README.md section 1; lscpu output -->
-<!-- draft by A from the 25 Oct session; D owns this segment -->
+Cloud computing means renting computers over the internet, on demand, instead of owning them. Condenser is UCL's private cloud. It gave us a virtual machine: a computer made in software, running on hardware shared with other users. That's infrastructure as a service: UCL runs the hardware, we run our code. <!-- locked -->
+[screen: lscpu on the VM, highlighting the "Hypervisor vendor" line — TODO(A): capture before recording]
+<!-- src: condenser.arc.ucl.ac.uk/about ("a private cloud platform for research computing at UCL", shared between tenancies), checked 29 Oct; README.md section 1 -->
+<!-- drafted by A (25 Oct) and James (29 Oct); final by D, 29 Oct -->
 
 ## Q2: What are key data security considerations for cloud computing? (0:35, ~80 words)
 
-In the cloud, our data sits on someone else's hardware, so security is shared between UCL and us.
-
-**Isolation.** The hypervisor (the software that splits one physical server into many virtual
-machines) walls our virtual machine off from other teams' machines, but they all
-share the same physical processor. lscpu lists the patches for Spectre-style bugs that could otherwise
-let one machine spy on another.
-
-**Access.** Our server is only reachable through UCL's JupyterHub, with an SSH key, and no passwords
-or keys ever go into our public repository.
-
-**Data.** SSH encrypts everything in transit, and inside the machine only our account can read the
-data file.
-[screen: lscpu "Vulnerabilities" section]
-[TODO(D): optional, if time: data at rest (is the disk encrypted?) and where it physically lives (UK, UCL)]
-<!-- src: README.md section 1; lscpu "Vulnerabilities" section; ARC Slack 26 Oct ("you need the terminal in the interface") -->
-<!-- draft by A from the 25 Oct session; D owns this segment -->
+Cloud security is shared. UCL keeps the hardware in its own facilities and walls each team's machines off from other teams'. lscpu lists the fixes for Spectre-style bugs that could let one machine spy on another. Access goes only through UCL's JupyterHub with an SSH key, our connections are encrypted, and no passwords or keys go in our public repository. And Condenser isn't certified for sensitive data, so real patient records would need extra safeguards first. <!-- locked -->
+[screen: lscpu "Vulnerabilities" lines — TODO(A): capture before recording; then condenser.arc.ucl.ac.uk/about with "not certified for the secure storage and processing of sensitive data" highlighted]
+<!-- src: condenser.arc.ucl.ac.uk/about, checked 29 Oct: "All hardware resides in UCL facilities"; "Condenser is not certified for the secure storage and processing of sensitive data" (it adds that a secure platform can be built on it after consulting UCL's Information Governance Advisory Service). Each tenancy gets its own namespace and network (same page). README.md section 1 (JupyterHub over https, then ssh) -->
+<!-- lscpu sentence: Bobby confirms the "Vulnerabilities" lines say "Mitigation" or "Not affected". If any say "Vulnerable", cut the sentence (it is first on the cut list) -->
+<!-- left out for time: encryption at rest (Condenser doesn't say); Condenser's terms say it "should not be treated as the sole repository for your data" (condenser.arc.ucl.ac.uk/terms_and_conditions) -->
+<!-- drafted by A (25 Oct) and James (29 Oct); final by D, 29 Oct, after review: "our connections" instead of "everything", "extra safeguards" instead of "shouldn't go there" -->
 
 ## Q3: The data file was world-readable. Why is this not desirable? Did we change it, how and why? (0:30, ~70 words)
 
-When the data landed on our machine, it was readable by every user: `-rw-r--r--`.
-On a shared cloud machine that means anyone with an account could read patient-style records. Patient
-data is confidential: only people with the right authorisation should be able to read it, and even
-though ours is synthetic, we treated it as real. So we moved it into a data folder only we can open and restricted the file to our own account with
-`chmod 600`, giving `-rw-------`. Our script creates its outputs without access for other users.
-[screen: ls -l before and after (ucl-evidence/q3-perms-*.png; crop out the IP)]
-[TODO(A): after checking on the VM, add one clause if true: no extra access via ACLs (`getfacl`, a `+` after the mode bits)]
-<!-- src: notes/2026-10-25-data-first-look.md; VM session 27 Oct (ls -l before/after) -->
+When the data file landed on our machine, any user could read it. On a shared machine, that exposes patient-style records to anyone with an account. Ours is synthetic, but we treated it as real: we moved it into a folder only we can open and ran chmod 600, so only our account can read it. Our script's outputs are closed to other users too.
+[screen: ls -l before (`-rw-r--r--`) and after (`-rw-------`): `cat notes/permissions-before.txt notes/permissions-after.txt` in a large-font terminal, or Bobby's screenshots if he took them, IP cropped out]
+[TODO(A): optional, after getfacl on the VM: add "We also checked no extra access rules were set." On 27 Oct both mode strings in notes/permissions-after.txt end in "." (SELinux label only), not "+" (an ACL), so it is likely true]
+<!-- src: notes/permissions-before.txt, notes/permissions-after.txt (VM, 27 Oct); src/amr_trees.py and src/risk_factors.py set umask 027 -->
+<!-- shortened by D for time, 29 Oct: permission strings moved to the screen line -->
 
 ## Q4: Why would you want a representative data set for machine learning? (0:30, ~70 words)
 
-A model is only useful if it generalises: if what it learned from its training data still holds for
-the real patients it will be used on. That only works if the training data looks like those patients.
-Ours doesn't quite: it covers ages 20 to 79, so it says nothing about children or anyone over 80, and
-its ethnic groups are about a fifth each, while about 82% of people in England and Wales are White.
-A model trained on it could perform well in testing and still be wrong in the real world, especially
-for the groups it rarely saw.
-[screen: bar chart of age range and ethnicity mix — TODO(C): make it]
-<!-- src: notes/2026-10-25-data-first-look.md (data), 2021 Census for the 82% -->
+A model only learns the patients it's shown, so training data should match the people it will be used on. Ours covers only ages 20 to 79. Each ethnic group is about a fifth of it, yet about 82% of people in England and Wales are White, so most real people belong to our data's smallest group. A model can test well and still fail them: that's how algorithmic bias arises.
+[screen: video/q4_our_data_vs_england_wales.png]
+<!-- src: notes/2026-10-25-data-first-look.md and notes/2026-10-29-model-checks.md (ages 20-79; each ethnic group 17.6-21.1%, White the smallest at 17.6%); ONS Census 2021, England and Wales: White 81.7% (ethnicity-facts-figures.service.gov.uk) -->
+<!-- chart made by D, 29 Oct, from the same numbers; C: replace it if you have your own -->
+<!-- reworded by D, 29 Oct, after review: names White as the under-represented group, and "algorithmic bias" because the marking criteria use the term -->
 
 ## Q5: Why would we want to use synthetic data instead of actual patient data? (0:25, ~60 words)
 
-Real patient data is confidential and sensitive. Patients may not have agreed to its use, and data
-protection law limits who can see and share it. Synthetic data is generated to copy the statistical
-patterns of real data, but contains no real people. So we can build and test models that reflect real
-patients, even on a shared cloud machine, without risking anyone's privacy.
+Real patient records are sensitive health data, tightly protected by UK GDPR, and patients may not have agreed to this use. Synthetic data is designed to mimic real data without containing any real people, so we can build and test models, even on a shared cloud machine, with far less privacy risk.
+[screen: text slide: "Synthetic data: real patterns, no real patients"]
+<!-- shortened by D, 29 Oct; UK GDPR and "far less privacy risk" as guide C puts it -->
 
 ## Q6: What is our final tree model, and why is it the most optimal? (0:45, ~105 words)
 
-Most patients in our data are not resistant, so plain accuracy is misleading: a model that calls
-everyone safe looks accurate while missing every patient we actually care about. So we weighted the
-resistant cases more heavily and compared models on balanced accuracy, which scores both groups fairly.
-
-We compared single decision trees with ensembles of trees, including a random forest, at different
-depths. The random forest predicted slightly better, but it's hundreds of trees voting, so no one can
-follow its reasoning. Our final model is a single class-balanced decision tree of depth 3: it can be
-drawn and checked by a doctor, and deeper trees started to overfit.
+Only about a quarter of patients are resistant, so plain accuracy misleads: calling everyone safe scores 76% yet misses every resistant patient. So we weighted resistant cases more heavily and ranked models on balanced accuracy, which gives both groups equal weight.
 [screen: outputs/balanced_accuracy_vs_depth_age_imd.png]
 
-The tree splits on age first, and age drives almost every decision: older patients are the ones most
-at risk. Deprivation barely matters, and the random forest agrees.
-[screen: outputs/best_tree_age_imd.png]
-<!-- src: VM run 29 Oct (outputs/run_summary_age_imd.txt, tree_balanced_depth3_age_imd.txt, model_comparison.csv) -->
-<!-- CV balanced accuracy, balanced tree: 0.659 at depth 3, falling to 0.584 at depth 8 -->
+We compared tree types and depths. Random forests scored slightly higher, but they're two hundred trees voting, which no one can follow. Our depth-3 tree scored best of the single trees, a doctor can read it, and deeper trees overfit.
+[screen: video/q6_final_tree_readable.png]
+
+Older patients are most at risk: resistance is 8% at ages 20 to 40, but 41% over 70. No other factor we tested beat random noise.
+[screen: outputs/risk_factors_vs_noise.png, left panel]
+<!-- src: outputs/run_summary_age_imd.txt, model_comparison.csv, tree_balanced_depth3_age_imd.txt (laptop run; the VM run on 27 Oct gave the same numbers) -->
+<!-- 76%: test accuracy of the trees that flag nobody (model_comparison.csv, decision_tree depth 1-3: 0.76); 24.1% resistant -->
+<!-- two hundred trees: RandomForestClassifier(n_estimators=200) in src/amr_trees.py -->
+<!-- best single tree: balanced, depth 3, CV balanced accuracy 0.659 (depth 1: 0.655, depth 8: 0.584); with other seeds the best depth moves between 1 and 3 (notes/2026-10-29-model-checks.md) -->
 <!-- test: tree balanced acc 0.622, recall 0.650, AUC 0.685; forest balanced acc 0.675, recall 0.733, AUC 0.718 -->
-<!-- resistance-by-age figures (8% at 20-40, 41% over 70) moved out for time; source notes/2026-10-25-data-first-look.md -->
-<!-- note: the depth-3 tree's 61.5-64.5 branch predicts susceptible, so "above 48 resistant" is a simplification -->
-<!-- note: a depth-1 tree has the same CV score (0.655 vs 0.659) and higher test recall (0.733) -->
-<!-- feature importance (random forest): age 0.91, imd 0.09; first split at age 48 -->
+<!-- 8% and 41%: resistance at ages 20-40 (8.4%) and 71-79 (40.7%), notes/2026-10-29-model-checks.md -->
+<!-- "no other factor beat random noise": outputs/risk_factors_summary.txt. Sex, surgery in the past year, deprivation, ethnicity, NHS trust and ICD chapter each fail at least one of the two tests; age scores 0.71, where 95% of its shuffled copies stay below 0.54. Reasoning: notes/2026-10-29-risk-factors.md -->
+<!-- note: the depth-3 tree's 61.5-64.5 branch predicts susceptible, so "above 48 resistant" is a simplification; the first split (age 48.5) is in the tree screen's title -->
+<!-- note: feature_importance_age_imd.png gives imd 0.09 (impurity importance), and that measure favours many-valued columns: in the noise-check forest a continuous column of random numbers gets 0.16 against imd's 0.07, while permutation importance puts imd (0.004) level with the noise columns (outputs/risk_factors_forest_importance.csv), so it isn't evidence that deprivation matters -->
+<!-- shortened by D, 29 Oct, after review: depth-3 reason is its score; who-is-at-risk figures and the noise check added -->
 
 ## Q7: What other modelling techniques could we use, and why? (0:25, ~60 words)
 
-We could use logistic regression: it fits a smooth rise in risk with age instead of sharp cut-offs,
-and gives odds ratios that clinicians already understand. A neural network such as an MLP is a bad fit
-here: a thousand patients and two fields is far too little data for it, and it would be even harder
-to explain than a random forest. It would only be worth trying with much more data and many more fields.
+Logistic regression suits this data: it fits a smooth rise in risk with age, not sharp cut-offs, and gives odds ratios clinicians already use. We tried it and it matched our tree, with the odds of resistance rising by more than half per decade of age. A neural network would be overkill for a thousand patients and one real risk factor.
+[screen: outputs/risk_factors_adjusted_odds_ratios.png]
+<!-- src: "matched our tree": class-weighted logistic regression on age and imd, same split and folds, CV balanced accuracy 0.660 vs the tree's 0.659 (notes/2026-10-29-model-checks.md). "More than half per decade": odds ratio per 10 years of age 1.54 in that fit, and 1.59 (1.44 to 1.76) adjusted for the other patient factors (outputs/risk_factors_adjusted_odds_ratios.csv) -->
+<!-- updated by D with C's checks, 29 Oct; C: check before recording -->
 
 ## Q8: How did we work as a team? (1:00, ~140 words)
 
-How we worked together and the challenges we overcame. Evidence: `teamwork-log.md`.
+We split the work into four roles. Bobby ran the cloud machine, the environment and the ReadMe; James wrote the model script; Ada explored the data and chose how to evaluate the models; and Eric led the video. We paired up to cover each other and checked in for fifteen minutes each evening. A shared GitHub repository held our plan, role guides and a log of our work sessions. <!-- locked -->
+[screen: PLAN.md roles table on GitHub, then video/teamwork-log.md, then the repo's commit history]
 
-We split the work into four roles, each with one owner. Bobby ran the cloud machine, the environment
-and the ReadMe; James wrote the model script; Ada explored the data and chose how to evaluate the
-models; and Eric led the video. We paired up to cover each other, machine with script and data with
-video, and checked in for fifteen minutes each evening. Everything lived in one shared GitHub
-repository: a plan, a guide for each role, and a log of every work session.
-[screen: PLAN.md roles table, then video/teamwork-log.md]
-
-We hit a few problems along the way. Login details arrived for only one of us, without the username,
-so we shared that login as instructed and found the username in the organisers' access guide. The
-machine has no git, so we edited on our laptops, pushed to GitHub and downloaded files with curl. And
-our first model flagged nobody as resistant, which is why we switched to balanced accuracy.
+We hit a few problems. Login details reached only one of us, with no username, so we shared that login as instructed and found the username in the organisers' access guide. The machine has no git, so we edited on laptops, pushed to GitHub and fetched files with curl. And our first model flagged nobody as resistant, which is why we switched to balanced accuracy. <!-- locked -->
 <!-- src: PLAN.md sections 2-3; video/teamwork-log.md (25 and 27 Oct) -->
-<!-- roles: A Bobby, B James, C Ada, D Eric -->
-<!-- TODO: confirm the evening check-ins actually happened before recording -->
-<!-- TODO: about 150 words, 65 s; trim the pairs sentence if over time -->
-
+<!-- roles: A Bobby, B James, C Ada, D Eric; role sentence kept as James wrote it (Eric, 29 Oct) -->
+<!-- evening check-ins confirmed by Eric, 29 Oct -->
 
 ## Outro (0:10, ~25 words)
+
+In short: our final model is a depth-3 class-balanced tree, and age is the only clear risk factor. Thanks for watching, from UCLuster Too. <!-- locked -->
+[screen: closing card: UCLuster Too, the four names, and github.com/adellama75/cluster-challenge-ucl]
+<!-- D, 29 Oct; "only clear risk factor": outputs/risk_factors_summary.txt -->
