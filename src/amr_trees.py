@@ -35,6 +35,7 @@ OPTIONAL_FEATURES = ["sex_male", "had_surgery_past_yr"]  # extra numeric columns
 
 
 def parse_args():
+    """Command-line options: input file, output folder, features, deepest tree, test size and seed."""
     p = argparse.ArgumentParser(description=__doc__.split("\n\n")[0])
     p.add_argument("--data", default="data/dig_health_hub_amr.csv", help="input CSV")
     p.add_argument("--out", default="outputs", help="folder for figures and tables")
@@ -125,6 +126,12 @@ def best_of(table, kinds):
 
 
 def save_tree_diagram(model, features, path, title):
+    """Draw a fitted tree with sklearn's plot_tree, since the VM has no graphviz.
+
+    Each box shows its split (leaves have none), the share of patients reaching it and the class
+    proportions. For class-balanced trees the proportions are after weighting, so the root reads
+    0.5/0.5. The figure gets wider and taller with depth so the boxes stay readable.
+    """
     depth = model.get_depth()
     fig, ax = plt.subplots(figsize=(min(4 + 3 * 2 ** min(depth, 4), 40), 2.5 + 2 * depth))
     plot_tree(model, feature_names=features, class_names=["susceptible", "resistant"],
@@ -149,6 +156,10 @@ def save_decision_surface(model, X, y, features, path, title):
 
 
 def save_balanced_accuracy_vs_depth(table, path):
+    """Cross-validated balanced accuracy against depth, one line per model type.
+
+    Error bars are the spread across the 5 folds. A line that falls as depth grows shows overfitting.
+    """
     fig, ax = plt.subplots(figsize=(7, 4.5))
     for kind, group in table.sort_values("max_depth").groupby("model"):
         ax.errorbar(group["max_depth"], group["cv_balanced_accuracy_mean"],
@@ -163,6 +174,7 @@ def save_balanced_accuracy_vs_depth(table, path):
 
 
 def save_feature_importance(model, features, path, title):
+    """Bar chart of the model's feature importances: which risk factors its predictions rely on most."""
     fig, ax = plt.subplots(figsize=(6, 1 + 0.5 * len(features)))
     order = np.argsort(model.feature_importances_)
     ax.barh(np.array(features)[order], model.feature_importances_[order])
@@ -173,6 +185,7 @@ def save_feature_importance(model, features, path, title):
 
 
 def main():
+    """Load the data, fit and compare every model, then write the table, figures and summary."""
     args = parse_args()
     os.umask(0o027)  # files we create are not readable by other users on the VM
     out = Path(args.out)
