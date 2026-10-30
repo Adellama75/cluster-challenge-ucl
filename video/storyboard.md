@@ -1,7 +1,7 @@
 # Storyboard and recording plan
 
-Target length 4:45 to 4:55, hard limit 5:00, saved as MP4. Narration is in `script.md`: about 660
-spoken words, about 4:43 at 140 words per minute. Each segment is recorded as its own clip by its owner,
+Target length 4:45 to 4:55, hard limit 5:00, saved as MP4. Narration is in `script.md`: about 747
+spoken words, about 5:20 at 140 words per minute, so it runs over until the cut list below is applied. Each segment is recorded as its own clip by its owner,
 and Eric (D) edits.
 
 ## Storyboard
@@ -11,16 +11,16 @@ Times are from the word counts at 140 words per minute.
 | # | Segment | Speaker | On screen | Starts | Length |
 |---|---|---|---|---|---|
 | 1 | Intro | Eric | Title card: "UCLuster Too", CIUK 2026 UCL challenge, Ada Ge, Bobby Ta, Eric Huang, James Loke | 0:00 | 0:13 |
-| 2 | Q1 Cloud compute | Eric | VM terminal: `lscpu` with the "Hypervisor vendor" line highlighted | 0:13 | 0:21 |
-| 3 | Q2 Data security | Eric | condenser.arc.ucl.ac.uk/about with "not certified for the secure storage and processing of sensitive data" highlighted | 0:34 | 0:26 |
+| 2 | Q1 Cloud compute | Ada | VM terminal: `lscpu` with the "Hypervisor vendor" line highlighted | 0:13 | 0:21 |
+| 3 | Q2 Data security | Ada | condenser.arc.ucl.ac.uk/about with "not certified for the secure storage and processing of sensitive data" highlighted | 0:34 | 0:26 |
 | 4 | Q3 File permissions | Bobby | `ls -l` of the data file before (`-rw-r--r--`) and after (`-rw-------`) | 1:00 | 0:28 |
-| 5 | Q4 Representative data | Ada | Deck slide with `video/q4_our_data_vs_england_wales.png` | 1:28 | 0:32 |
-| 6 | Q5 Synthetic data | Ada | Deck slide: "Synthetic data lets us test our models without using anyone's real medical records", a real patient's record next to a synthetic one | 2:00 | 0:22 |
+| 5 | Q4 Representative data | Bobby | Deck slide with `video/q4_our_data_vs_england_wales.png` | 1:28 | 0:32 |
+| 6 | Q5 Synthetic data | James | Deck slide: "Synthetic data lets us test our models without using anyone's real medical records", a real patient's record next to a synthetic one | 2:00 | 0:22 |
 | 7 | Q6 Final model | James | `video/q6_model_comparison.png` with the score table, then `video/q6_final_tree_readable.png` from "Random forests", then resistance by age and `video/q6_risk_factors_vs_noise.png` from "Older patients" (one deck slide each) | 2:22 | 0:45 |
-| 8 | Q7 Other techniques | Ada | Deck slide: 1.5 times the odds per 10 years of age, and every model we tried ranked by balanced accuracy | 3:07 | 0:28 |
-| 9 | Q8 Teamwork | Eric | `PLAN.md` roles table on GitHub, `video/teamwork-log.md`, then the repo's commit history | 3:35 | 0:58 |
-| 10 | Outro | Eric | Closing card: team name, the four names, github.com/adellama75/cluster-challenge-ucl | 4:33 | 0:10 |
-| | **Total** | | | | **4:43** |
+| 8 | Q7 Other techniques | Eric | Deck slide: 1.5 times the odds per 10 years of age, and every model we tried ranked by balanced accuracy | 3:07 | 0:36 |
+| 9 | Q8 Teamwork | Eric | The roles deck slide, then `PLAN.md` on GitHub, `video/teamwork-log.md` and the repo's commit history | 3:43 | 1:25 |
+| 10 | Outro | Eric | Closing card: team name, the four names, github.com/adellama75/cluster-challenge-ucl | 5:08 | 0:12 |
+| | **Total** | | | | **5:20** |
 
 Every segment also has a slide in the team deck: 13 slides in storyboard order, with each segment's
 narration in its speaker notes. The deck is in this folder as `UCLuster-Too-video-slides.pptx`
@@ -29,7 +29,7 @@ narration in its speaker notes. The deck is in this folder as `UCLuster-Too-vide
 them.
 
 Numbers and words such as "76%" or "chmod 600" take longer to say than to count, and each cut
-between clips adds a moment, so expect the edit to come out nearer 4:52. If Bobby can't record Q3,
+between clips adds a moment, so expect the edit to add about 9 seconds. If Bobby can't record Q3,
 Eric reads it over Bobby's screen recording (guide A allows this).
 
 ## Screens to prepare before recording
@@ -73,22 +73,31 @@ URL that contains a token, passwords.
 ## Edit and submit (Friday, by 18:00)
 
 1. Clips in storyboard order, title card at the start, closing card at the end, plain cuts.
-2. Check the total: 4:45 to 4:55, never over 5:00. If it runs over, use the cut list.
+2. Check the total: 4:45 to 4:55, never over 5:00. Use the cut list to get there.
 3. Export MP4 at 1080p.
 4. Watch the whole file once: audio level even across speakers, every screen readable, nothing private
    visible.
 5. Upload to the team's CIUK Challenge folder and post the link in the group chat.
 
-## Cut list, in order, if a segment or the edit runs long
+## Cut list, in order
 
-Each cut is a whole sentence or clause, so what's left still reads correctly.
+The narration needs about 30 seconds out to reach 4:55 after the edit. All ten cuts save about 34 s (80 words, down to
+about 667 words). Each is a whole sentence or clause, so what's left still reads correctly.
 
 | Segment | Cut | Saves |
 |---|---|---|
 | Q3 | "Our script's outputs are closed to other users too." | 4 s |
-| Q7 | ", and it gives odds ratios, which clinicians already use" | 4 s |
+| Q7 | "It also produces odds ratios, which clinicians already use when evaluating patient risk." | 6 s |
+| Q8 | "To manage the project effectively, " (start at "We paired up") | 2 s |
+| Q8 | " to review our progress" | 2 s |
+| Q8 | " and shared the login details as instructed" | 3 s |
+| Q8 | " for our records" | 1 s |
+| Q8 | "This structure helped us resolve several early technical issues." | 4 s |
+| Q4 | ", so most real people belong to our data's smallest group" | 4 s |
+| Q5 | ", even on a shared cloud machine," | 3 s |
+| Q7 | "Our decision tree performs well, but it divides age into stepped thresholds." | 5 s |
 
 Two earlier cuts are already applied in `script.md`: Q6 "We compared tree types and depths." and the
 Q2 lscpu sentence.
 
-Don't cut Q8. Teamwork carries 15 marks.
+The Q8 cuts leave who did what and all three problems in place. Teamwork carries 15 marks.

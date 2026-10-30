@@ -3,24 +3,23 @@
 Draft narration, updated by `/script` after each work session. Budgets are at 140 words per minute.
 Mark finished lines with `<!-- locked -->` so `/script` leaves them alone.
 
-**Status 29 Oct (D):** timing pass done. The spoken total is about 660 words, about 4:43 at 140 words
-per minute, after a plain-language pass on Q4, Q6 and Q7 and cutting the Q2 lscpu sentence. It was 840 words, about 6:00. Segments were cut down to their main points, and what was
-cut is noted under each one. Intro, Q1, Q2, Q8 and the outro are final. Q3 to Q7 owners: check your
-lines, time one read-through against `storyboard.md`, then lock them. One paragraph per line, so the
-cut list in `storyboard.md` can be found by searching.
+**Status 30 Oct (D):** speakers changed: Ada Q1 and Q2, Bobby Q3 and Q4, James Q5 and Q6, Eric the intro, Q7, Q8
+and the outro. New Q7, Q8 and outro lines from Eric. The spoken total is now about 747 words, about 5:20 at 140 words
+per minute, so it is over the 5:00 limit until the cut list in `storyboard.md` is applied. One paragraph per line, so
+the cut list can be found by searching.
 
-| Segment | Time | Words |
-|---|---|---|
-| Intro | 0:15 | ~35 |
-| Q1 Cloud compute | 0:25 | ~60 |
-| Q2 Data security | 0:35 | ~80 |
-| Q3 File permissions | 0:30 | ~70 |
-| Q4 Representative data | 0:30 | ~70 |
-| Q5 Synthetic data | 0:25 | ~60 |
-| Q6 Final model | 0:45 | ~105 |
-| Q7 Other techniques | 0:25 | ~60 |
-| Q8 Teamwork | 1:00 | ~140 |
-| Outro | 0:10 | ~25 |
+| Segment | Speaker | Time | Words |
+|---|---|---|---|
+| Intro | Eric | 0:13 | 30 |
+| Q1 Cloud compute | Ada | 0:21 | 50 |
+| Q2 Data security | Ada | 0:26 | 61 |
+| Q3 File permissions | Bobby | 0:28 | 65 |
+| Q4 Representative data | Bobby | 0:32 | 74 |
+| Q5 Synthetic data | James | 0:22 | 52 |
+| Q6 Final model | James | 0:45 | 105 |
+| Q7 Other techniques | Eric | 0:36 | 83 |
+| Q8 Teamwork | Eric | 1:25 | 198 |
+| Outro | Eric | 0:12 | 29 |
 
 ## Intro (0:15, ~35 words)
 
@@ -89,26 +88,25 @@ Older patients are most at risk: resistance is 8% at ages 20 to 40, but 41% over
 <!-- plainer wording by D, 29 Oct, after an outside review flagged "misleads" and "which no one can follow"; first cut-list line ("We compared tree types and depths.") applied to stay under 5:00 -->
 <!-- note: "beat random noise" means beating its shuffled copies in both the regression and the tree; the diagnosis (ICD chapter) tree alone scores 0.524 against 0.519, but its regression doesn't (outputs/risk_factors_summary.txt) -->
 
-## Q7: What other modelling techniques could we use, and why? (0:25, ~60 words)
+## Q7: What other modelling techniques could we use, and why? (0:36, 83 words)
 
-Logistic regression suits this data. It fits risk rising smoothly with age, where a tree can only make steps, and it gives odds ratios, which clinicians already use. We tried it and it matched our tree, with the odds of resistance rising by more than half per decade of age. We didn't need a neural network for a thousand patients and one clear risk factor.
-[screen: the Q7 deck slide: 1.5 times the odds per 10 years of age, and every model we tried ranked by balanced accuracy]
-<!-- src: "matched our tree": class-weighted logistic regression on age and imd, same split and folds, CV balanced accuracy 0.660 vs the tree's 0.659 (notes/2026-10-29-model-checks.md). "More than half per decade": odds ratio per 10 years of age 1.54 in that fit, and 1.59 (1.44 to 1.76) adjusted for sex, surgery, deprivation and ethnicity (outputs/risk_factors_adjusted_odds_ratios.csv) -->
-<!-- updated by D with C's checks, 29 Oct; C: check before recording -->
-<!-- plainer wording by D, 29 Oct, after an outside review flagged "not sharp cut-offs" and "overkill" -->
+Our decision tree performs well, but it divides age into stepped thresholds. Logistic regression is a strong alternative because it models risk rising continuously with age. It also produces odds ratios, which clinicians already use when evaluating patient risk. When we tested logistic regression, its output agreed with our tree. Each decade of age increased the odds of resistance by over 50 percent. Given a sample of one thousand patients and a single clear risk factor, a neural network would add unnecessary complexity. <!-- locked -->
+[screen: the Q7 deck slide with 1.5 times the odds per 10 years of age and every model ranked by balanced accuracy]
+<!-- src: "agreed with our tree": class-weighted logistic regression on age and imd, same split and folds, CV balanced accuracy 0.660 vs the tree's 0.659 (notes/2026-10-29-model-checks.md); the two give the same prediction for 86.8% of test patients (checked 30 Oct). "Over 50 percent": odds ratio per 10 years of age 1.54 in that fit, and 1.59 (1.44 to 1.76) adjusted for sex, surgery, deprivation and ethnicity (outputs/risk_factors_adjusted_odds_ratios.csv) -->
+<!-- new wording by Eric, 30 Oct -->
 
-## Q8: How did we work as a team? (1:00, ~140 words)
+## Q8: How did we work as a team? (1:25, 198 words)
 
-We split the work into four roles. Bobby ran the cloud machine, the environment and the ReadMe; James wrote the model script; Ada explored the data and chose how to evaluate the models; and Eric led the video. We paired up to cover each other and checked in for fifteen minutes each evening. A shared GitHub repository held our plan, role guides and a log of our work sessions. <!-- locked -->
-[screen: PLAN.md roles table on GitHub, then video/teamwork-log.md, then the repo's commit history]
+To manage the project effectively, we paired up across two main tracks. For cloud setup and modelling, James developed the modelling script while Bobby kept the cloud machine updated. Bobby also tested a fresh install from our README and ran the final submission checks. For analysis and presentation, Ada set up the initial VM environment and README, before exploring the data to choose our evaluation metric. Alongside her, Eric tested each risk factor against random noise, ran the logistic regression, and led the slides and video. Every evening, we held a fifteen-minute catch-up to review our progress. We also stored our project plan, role guides, and work-session notes in a single GitHub repository. <!-- locked -->
+[screen: the roles deck slide, then PLAN.md on GitHub, video/teamwork-log.md, and the commit history]
 
-We hit a few problems. Login details reached only one of us, with no username, so we shared that login as instructed and found the username in the organisers' access guide. The machine has no git, so we edited on laptops, pushed to GitHub and fetched files with curl. And our first model flagged nobody as resistant, which is why we switched to balanced accuracy. <!-- locked -->
-<!-- src: PLAN.md sections 2-3; video/teamwork-log.md (25 and 27 Oct) -->
-<!-- roles: A Bobby, B James, C Ada, D Eric; role sentence kept as James wrote it (Eric, 29 Oct) -->
-<!-- evening check-ins confirmed by Eric, 29 Oct -->
+This structure helped us resolve several early technical issues. Initially, the server login details reached only one team member and omitted the username. We found the username in the organisers' access guide and shared the login details as instructed. Because the cloud machine did not have Git installed, we archived our scripts on GitHub for our records and fetched the files onto the machine using curl. Finally, our baseline model flagged no patients as resistant, which led us to evaluate our models using balanced accuracy. <!-- locked -->
+<!-- src: PLAN.md sections 2-3; video/teamwork-log.md (25, 27 and 29 Oct). Ada's setup: teamwork log, 27 Oct. Eric's checks: teamwork log, 29 Oct -->
+<!-- Bobby's sentence comes from notes/2026-10-29-vm-jobs-for-bobby.md, the work assigned to him for 29 to 30 Oct: confirm with him before recording -->
+<!-- evening check-ins confirmed by Eric, 29 Oct; new wording by Eric, 30 Oct -->
 
-## Outro (0:10, ~25 words)
+## Outro (0:12, 29 words)
 
-In short: our final model is a depth-3 class-balanced tree, and age is the only clear risk factor. Thanks for watching, from UCLuster Too. <!-- locked -->
+Our final model is a depth-3 class-balanced decision tree, and in our data, older age is the single clear predictor of resistance. Thank you for watching, from UCLuster Too. <!-- locked -->
 [screen: closing card: UCLuster Too, the four names, and github.com/adellama75/cluster-challenge-ucl]
-<!-- D, 29 Oct; "only clear risk factor": outputs/risk_factors_summary.txt -->
+<!-- Eric, 30 Oct; "single clear predictor": outputs/risk_factors_summary.txt -->
