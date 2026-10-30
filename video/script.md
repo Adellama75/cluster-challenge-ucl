@@ -11,8 +11,8 @@ the cut list can be found by searching.
 | Segment | Speaker | Time | Words |
 |---|---|---|---|
 | Intro | Eric | 0:13 | 30 |
-| Q1 Cloud compute | Ada | 0:21 | 50 |
-| Q2 Data security | Ada | 0:26 | 61 |
+| Q1 Cloud compute | Ada | 0:23 | 53 |
+| Q2 Data security | Ada | 0:28 | 65 |
 | Q3 File permissions | Bobby | 0:28 | 65 |
 | Q4 Representative data | Bobby | 0:32 | 74 |
 | Q5 Synthetic data | James | 0:22 | 52 |
@@ -28,16 +28,17 @@ We're UCLuster Too: Ada, Bobby, Eric and James. We used tree models to predict w
 
 ## Q1: What is cloud compute? (0:25, ~60 words)
 
-Cloud computing means renting computers over the internet, on demand, instead of owning them. Condenser is UCL's private cloud. It gave us a virtual machine: a computer made in software, running on hardware shared with other users. That's infrastructure as a service: UCL runs the hardware, we run our code. <!-- locked -->
-[screen: lscpu on the VM, highlighting the "Hypervisor vendor" line — TODO(A): capture before recording]
+Cloud computing means renting computers over the internet, on demand, like AWS or Azure, instead of owning them. Condenser is UCL's private cloud. It gave us a virtual machine: a computer made in software, on hardware shared with other users. That's infrastructure as a service: UCL runs the hardware, we run our code. <!-- locked -->
+[screen: lscpu on the VM, highlighting the "Hypervisor vendor" line (Ada has the screenshot, IP not shown)]
 <!-- src: condenser.arc.ucl.ac.uk/about ("a private cloud platform for research computing at UCL", shared between tenancies), checked 29 Oct; README.md section 1 -->
-<!-- drafted by A (25 Oct) and James (29 Oct); final by D, 29 Oct -->
+<!-- drafted by A (25 Oct) and James (29 Oct); final by D, 29 Oct; AWS/Azure examples merged in from Ada's draft, 30 Oct -->
 
 ## Q2: What are key data security considerations for cloud computing? (0:35, ~80 words)
 
-Cloud security is shared. UCL keeps the hardware in its own facilities and walls each team's machines off from other teams'. Access goes only through UCL's JupyterHub with an SSH key, our connections are encrypted, and no passwords or keys go in our public repository. And Condenser isn't certified for sensitive data, so real patient records would need extra safeguards first. <!-- locked -->
+Cloud security is shared: we can't see the physical machine, so we rely on the provider. UCL walls each team's machines off from the others. We only get in through UCL's JupyterHub with an SSH key, connections are encrypted, and no keys or passwords go in our public repository. And Condenser isn't certified for sensitive data, so real patient records would need extra safeguards first. <!-- locked -->
 [screen: condenser.arc.ucl.ac.uk/about with "not certified for the secure storage and processing of sensitive data" highlighted]
 <!-- src: condenser.arc.ucl.ac.uk/about, checked 29 Oct: "All hardware resides in UCL facilities"; "Condenser is not certified for the secure storage and processing of sensitive data" (it adds that a secure platform can be built on it after consulting UCL's Information Governance Advisory Service). Each tenancy gets its own namespace and network (same page). README.md section 1 (JupyterHub over https, then ssh) -->
+<!-- 30 Oct: opening line merged in from Ada's draft (we can't see the machine, so we rely on the provider) -->
 <!-- cut by D, 29 Oct, after an outside review: lscpu shows the patches in our VM's own kernel, which says little about how UCL secures the shared hardware. It was also on the cut list and saves about 6 s -->
 <!-- left out for time: encryption at rest (Condenser doesn't say); Condenser's terms say it "should not be treated as the sole repository for your data" (condenser.arc.ucl.ac.uk/terms_and_conditions) -->
 <!-- drafted by A (25 Oct) and James (29 Oct); final by D, 29 Oct, after review: "our connections" instead of "everything", "extra safeguards" instead of "shouldn't go there" -->
