@@ -45,7 +45,7 @@ Cloud security is shared: we can't see the physical machine, so we rely on the p
 
 ## Q3: The data file was world-readable. Why is this not desirable? Did we change it, how and why? (0:30, ~70 words)
 
-When the data file landed on our machine, any user could read it. On a shared machine, that exposes patient-style records to anyone with an account. Ours is synthetic, but we treated it as real: we moved it into a folder only we can open and ran chmod 600, so only our account can read it. Our script's outputs are closed to other users too.
+When the data file landed on our machine, it was world-readable; any user with an account could access it. Naturally, this raises concerns about privacy - especially in a context as sensitive as medical records.  Although the dataset is synthetic, we treated it with the seriousness warranted by real patient records: we moved it into a folder only we can open and ran chmod 600, so only our account can read it. Our script's outputs are closed to other users too.
 [screen: ls -l before (`-rw-r--r--`) and after (`-rw-------`): `cat notes/permissions-before.txt notes/permissions-after.txt` in a large-font terminal, or Bobby's screenshots if he took them, IP cropped out]
 [TODO(A): optional, after getfacl on the VM: add "We also checked no extra access rules were set." On 27 Oct both mode strings in notes/permissions-after.txt end in "." (SELinux label only), not "+" (an ACL), so it is likely true]
 <!-- src: notes/permissions-before.txt, notes/permissions-after.txt (VM, 27 Oct); src/amr_trees.py and src/risk_factors.py set umask 027 -->
@@ -53,7 +53,7 @@ When the data file landed on our machine, any user could read it. On a shared ma
 
 ## Q4: Why would you want a representative data set for machine learning? (0:30, ~70 words)
 
-A model only learns the patients it's shown, so training data should match the people it will be used on. Ours covers only ages 20 to 79. Each ethnic group is about a fifth of it, yet about 82% of people in England and Wales are White, so most real people belong to our data's smallest group. A model can score well in testing and still do badly for them, and that's algorithmic bias.
+Representative datasets are important in ML to ensure good generalisation and avoid bias/overfitting. A model can only learn from the data it is given, so training data should reflect the real-world conditions to which the model will be applied. 2 weaknesses of our data are that it covers only ages 20 to 79, so it's hard to predict how well it'd perform outside that range, and that ethnicities are disproportionate; white people make up over 80% of the actual population but only 17.6% of the dataset.
 [screen: the Q4 deck slide, with the chart in video/q4_our_data_vs_england_wales.png]
 <!-- src: notes/2026-10-25-data-first-look.md and notes/2026-10-29-model-checks.md (ages 20-79; each ethnic group 17.6-21.1%, White the smallest at 17.6%); ONS Census 2021, England and Wales: White 81.7% (ethnicity-facts-figures.service.gov.uk) -->
 <!-- chart made by D, 29 Oct, from the same numbers; C: replace it if you have your own -->
