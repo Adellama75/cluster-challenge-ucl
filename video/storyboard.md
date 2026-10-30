@@ -15,7 +15,7 @@ Times are from the word counts at 140 words per minute.
 | 3 | Q2 Data security | Eric | condenser.arc.ucl.ac.uk/about with "not certified for the secure storage and processing of sensitive data" highlighted | 0:34 | 0:26 |
 | 4 | Q3 File permissions | Bobby | `ls -l` of the data file before (`-rw-r--r--`) and after (`-rw-------`) | 1:00 | 0:28 |
 | 5 | Q4 Representative data | Ada | Deck slide with `video/q4_our_data_vs_england_wales.png` | 1:28 | 0:32 |
-| 6 | Q5 Synthetic data | Ada | Text slide: "Synthetic data lets us build models without putting real patients' records at risk" | 2:00 | 0:22 |
+| 6 | Q5 Synthetic data | Ada | Deck slide: "Synthetic data lets us test our models without using anyone's real medical records", a real patient's record next to a synthetic one | 2:00 | 0:22 |
 | 7 | Q6 Final model | James | `video/q6_model_comparison.png` with the score table, then `video/q6_final_tree_readable.png` from "Random forests", then resistance by age and `video/q6_risk_factors_vs_noise.png` from "Older patients" (one deck slide each) | 2:22 | 0:45 |
 | 8 | Q7 Other techniques | Ada | Deck slide: 1.5 times the odds per 10 years of age, and every model we tried ranked by balanced accuracy | 3:07 | 0:28 |
 | 9 | Q8 Teamwork | Eric | `PLAN.md` roles table on GitHub, `video/teamwork-log.md`, then the repo's commit history | 3:35 | 0:58 |

@@ -63,7 +63,7 @@ A model only learns the patients it's shown, so training data should match the p
 ## Q5: Why would we want to use synthetic data instead of actual patient data? (0:25, ~60 words)
 
 Real patient records are sensitive health data, tightly protected by UK GDPR, and patients may not have agreed to this use. Synthetic data is designed to mimic real data without containing any real people, so we can build and test models, even on a shared cloud machine, with far less privacy risk.
-[screen: text slide: "Synthetic data lets us build models without putting real patients' records at risk"]
+[screen: the Q5 deck slide: "Synthetic data lets us test our models without using anyone's real medical records", with a real patient's record next to a synthetic one]
 <!-- shortened by D, 29 Oct; UK GDPR and "far less privacy risk" as guide C puts it -->
 
 ## Q6: What is our final tree model, and why is it the most optimal? (0:45, ~105 words)
